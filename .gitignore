@@ -2,3 +2,5 @@
 pyrightconfig.json
 venv
 **__pycache__/
+**node_modules/
+TODO.todo
