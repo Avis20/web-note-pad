@@ -1,0 +1,18 @@
+[tool.poetry]
+name = "web-notepad-backend"
+version = "0.1.0"
+description = ""
+authors = ["Орлов Ярослав <y.orlov@fonmix.ru>"]
+
+[tool.poetry.dependencies]
+python = "^3.10"
+fastapi = "^0.75.1"
+uvicorn = "^0.17.6"
+
+[tool.poetry.dev-dependencies]
+flake8 = "^4.0.1"
+black = {version = "^22.3.0", allow-prereleases = true}
+
+[build-system]
+requires = ["poetry-core>=1.0.0"]
+build-backend = "poetry.core.masonry.api"

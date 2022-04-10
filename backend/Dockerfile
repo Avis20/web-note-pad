@@ -1,16 +1,19 @@
-# (1)
-FROM python:3.9-buster
+# ./backend/Dockerfile
 
-# (2)
+# Базовый образ = python3.10-buster
+FROM python:3.10-slim
+
+# Создаем рабочую диру под backend
 WORKDIR /app
 
-# (3)
+# уст. переменную окружения PYTHONUNBUFFERED чтобы логи fastapi не застревали в контейнере
 ENV PYTHONUNBUFFERED 1
 
-# (4)
-COPY requirements.txt .
-RUN pip install --upgrade pip
-RUN pip install -r requirements.txt
+# копируем и уст. зависимости 
+ADD pyproject.toml .
+RUN pip install poetry
+RUN poetry install
 
-# (5)
 COPY ./src .
+
+ENTRYPOINT ["poetry", "run", "python", "main.py"]

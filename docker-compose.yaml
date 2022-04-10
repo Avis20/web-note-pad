@@ -1,25 +1,15 @@
-version: '3.8' 
+version: '3.8'
 
 services:
-
   backend:
-    # (1)
+    # Указываем путь до Dockerfile чтобы собрать контейнер
     build: ./backend
-    # (2)
+    # Определяем порты на которых будет запущен бекенд и по которому будет доступно подключение
     ports:
       - 5000:5000
-    # (3)
+    # Монтируем во внутрь app директорию с исходным кодом python + poetry
     volumes:
       - ./backend/src:/app
-    # (4)
-    command: uvicorn main:app --reload --host 0.0.0.0 --port 5000
-
-  frontend:
-    build: ./frontend
-    ports:
-      - 8080:8080
-    volumes:
-      - ./frontend:/app
-      - /app/node_modules
-    command: npm run serve
-
+      - ./backend/pyproject.toml:/app/pyproject.toml
+    # Запускаем приложение через uvicorn
+    command: "poetry run python main.py"
