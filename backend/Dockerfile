@@ -14,6 +14,6 @@ ADD pyproject.toml .
 RUN pip install poetry
 RUN poetry install
 
-COPY ./src .
+COPY ./src /src
 
-ENTRYPOINT ["poetry", "run", "python", "main.py"]
+CMD ["poetry", "run", "python", "src/main.py"]

@@ -9,7 +9,6 @@ services:
       - 5000:5000
     # Монтируем во внутрь app директорию с исходным кодом python + poetry
     volumes:
-      - ./backend/src:/app
-      - ./backend/pyproject.toml:/app/pyproject.toml
+      - ./backend/src:/app/src
     # Запускаем приложение через uvicorn
-    command: "poetry run python main.py"
+    command: "poetry run python src/main.py"
