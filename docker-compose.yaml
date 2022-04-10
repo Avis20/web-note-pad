@@ -12,3 +12,25 @@ services:
       - ./backend/src:/app/src
     # Запускаем приложение через uvicorn
     command: "poetry run python src/main.py"
+
+  frontend:
+    build: ./frontend
+    ports:
+      - 8080:8080
+    volumes:
+      - ./frontend:/app
+      # - /app/node_modules
+
+  database:
+    image: postgres:13
+    ports:
+      - 5432:5432
+    environment:
+      - POSTGRES_USER=fastapi_user
+      - POSTGRES_PASSWORD=fastapi_pass
+      - POSTGRES_DB=fastapi_dev
+    volumes:
+      - db:/var/lib/postgresql/data/
+
+volumes:
+  db:
