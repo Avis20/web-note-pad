@@ -17,7 +17,7 @@ app.add_middleware(
     allow_headers="*",
 )
 
-register_tortoise(app, config=TORTOISE_ORM, generate_schemas=False)
+register_tortoise(app, config=TORTOISE_ORM, generate_schemas=True)
 
 @app.get("/")
 def root():

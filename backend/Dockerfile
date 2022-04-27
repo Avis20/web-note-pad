@@ -13,8 +13,11 @@ RUN poetry install
 
 # уст. переменную окружения PYTHONUNBUFFERED чтобы логи fastapi не застревали в контейнере
 ENV PYTHONUNBUFFERED 1
-ENV PYTHONPATH=$PWD/src
+# Указываем путь до python модулей -> текущая директория, иначе будет ошибка
+# backend_1   | ModuleNotFoundError: No module named 'src'
+ENV PYTHONPATH=.
 
 COPY ./src /src
+COPY migrations ./migrations
 
 CMD ["poetry", "run", "python", "src/main.py"]

@@ -1,6 +1,8 @@
+# ./backend/src/database/register.py
 
 from typing import Optional
 from tortoise import Tortoise
+
 
 def register_tortoise(
     app,

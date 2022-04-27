@@ -3,6 +3,7 @@
 import os
 
 TORTOISE_ORM = {
+    # Берем из переменной окружения коннект к БД
     "connections": {"default": os.environ.get("DATABASE_URL")},
     "apps": {
         "models": {
