@@ -1,10 +1,19 @@
 # ./backend/src/main.py
 
-import uvicorn
+from uvicorn import run
 from fastapi import FastAPI
+from tortoise import Tortoise
+
 from fastapi.middleware.cors import CORSMiddleware
+
 from src.database.register import register_tortoise
 from src.database.config import TORTOISE_ORM
+
+# разрешим схемам читать связи между моделями
+# зачем?
+Tortoise.init_models(["src.database.models"], "models")
+
+from src.routes import users
 
 app = FastAPI()
 
@@ -16,8 +25,9 @@ app.add_middleware(
     allow_methods="*",
     allow_headers="*",
 )
+app.include_router(users.router)
 
-register_tortoise(app, config=TORTOISE_ORM, generate_schemas=True)
+register_tortoise(app, config=TORTOISE_ORM, generate_schemas=False)
 
 @app.get("/")
 def root():
@@ -25,4 +35,4 @@ def root():
 
 
 if __name__ == "__main__":
-    uvicorn.run("main:app", host="0.0.0.0", port=5000, reload=True)
+    run("main:app", host="0.0.0.0", port=5000, reload=True)

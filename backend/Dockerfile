@@ -17,6 +17,9 @@ ENV PYTHONUNBUFFERED 1
 # backend_1   | ModuleNotFoundError: No module named 'src'
 ENV PYTHONPATH=.
 
+# не создавать .pyc файлы в контейнере
+ENV PYTHONDONTWRITEBYTECODE 1
+
 COPY ./src /src
 COPY migrations ./migrations
 

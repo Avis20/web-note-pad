@@ -19,4 +19,3 @@ class Notes(models.Model):
     author = fields.ForeignKeyField("models.Users", related_name="note")
     created_at = fields.DatetimeField(auto_now_add=True)
     modified_at = fields.DatetimeField(auto_now=True)
-    test = fields.CharField(max_length=50, null=True)
