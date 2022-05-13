@@ -1,5 +1,7 @@
 # ./backend/src/main.py
 
+import logging
+from os import sys
 from uvicorn import run
 from fastapi import FastAPI
 from tortoise import Tortoise
@@ -11,9 +13,26 @@ from src.database.config import TORTOISE_ORM
 
 # разрешим схемам читать связи между моделями
 # зачем?
-Tortoise.init_models(["src.database.models"], "models")
+# Tortoise.init_models(["src.database.models"], "models")
 
 from src.routes import users
+
+fmt = logging.Formatter(
+    fmt="%(asctime)s - %(name)s:%(lineno)d - %(levelname)s - %(message)s",
+    datefmt="%Y-%m-%d %H:%M:%S",
+)
+logger = logging.StreamHandler(sys.stdout)
+logger.setLevel(logging.DEBUG)
+logger.setFormatter(fmt)
+
+# will print debug sql
+logger_db_client = logging.getLogger("db_client")
+logger_db_client.setLevel(logging.DEBUG)
+logger_db_client.addHandler(logger)
+
+logger_tortoise = logging.getLogger("tortoise")
+logger_tortoise.setLevel(logging.DEBUG)
+logger_tortoise.addHandler(logger)
 
 app = FastAPI()
 
