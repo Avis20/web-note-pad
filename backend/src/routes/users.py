@@ -2,6 +2,8 @@
 
 from datetime import timedelta
 from fastapi import APIRouter, Depends, HTTPException, status
+from fastapi.encoders import jsonable_encoder
+from fastapi.responses import JSONResponse
 from fastapi.security import OAuth2PasswordRequestForm
 
 import src.crud.users as crud
@@ -9,6 +11,7 @@ from src.auth.users import validate_user
 from src.schemas.users import UserInSchema, UserOutSchema
 from src.auth.jwthandler import (
     create_access_token,
+    get_current_user,
     ACCESS_TOKEN_EXPIRED_MINUTES
 )
 
@@ -34,6 +37,25 @@ async def login_user(user: OAuth2PasswordRequestForm = Depends()):
     access_token = create_access_token(
         data={"sub": user.username}, expires_delta=access_token_expired
     )
+    # Зачем jsonable_encoder?
+    # token = jsonable_encoder(access_token)
+    token = access_token
+    content = {"message": "Loggined", "success": 1}
+    response = JSONResponse(content)
+    response.set_cookie(
+        "Authorization",
+        value=f"Bearer: {token}",
+        httponly=True,
+        max_age=1800,
+        expires=1800,
+        secure=False
+    )
+    return response
+
+@router.get('/user/info', response_model=UserOutSchema)
+async def user_info(user: UserOutSchema = Depends(get_current_user)):
+    return user
+
 
 # @router.delete(
 #     '/user/{user_id}',
