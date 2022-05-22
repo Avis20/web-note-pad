@@ -12,25 +12,25 @@ from src.schemas.users import UserInSchema, UserOutSchema
 from src.auth.jwthandler import (
     create_access_token,
     get_current_user,
-    ACCESS_TOKEN_EXPIRED_MINUTES
+    ACCESS_TOKEN_EXPIRED_MINUTES,
 )
 
 
 router = APIRouter()
 
-@router.post('/register', response_model=UserOutSchema)
+
+@router.post("/register", response_model=UserOutSchema)
 async def create_user(user: UserInSchema) -> UserOutSchema:
     return await crud.create_user(user)
 
 
-@router.post('/login')
+@router.post("/login")
 async def login_user(user: OAuth2PasswordRequestForm = Depends()):
     user = await validate_user(user)
 
     if not user:
         raise HTTPException(
-            status_code=status.HTTP_404_NOT_FOUND,
-            detail="User not found"
+            status_code=status.HTTP_404_NOT_FOUND, detail="User not found"
         )
 
     access_token_expired = timedelta(minutes=ACCESS_TOKEN_EXPIRED_MINUTES)
@@ -48,11 +48,12 @@ async def login_user(user: OAuth2PasswordRequestForm = Depends()):
         httponly=True,
         max_age=1800,
         expires=1800,
-        secure=False
+        secure=False,
     )
     return response
 
-@router.get('/user/info', response_model=UserOutSchema)
+
+@router.get("/user/info", response_model=UserOutSchema)
 async def user_info(user: UserOutSchema = Depends(get_current_user)):
     return user
 
