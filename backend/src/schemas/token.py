@@ -11,6 +11,6 @@ class TokenData(BaseModel):
 
 
 class Status(BaseModel):
-    """???"""
-
-    message = str
+    """ Статус возвращаемого объекта api при delete user """
+    # Непонятно что этот класс делает в token.py...
+    message: str

@@ -21,7 +21,7 @@ JWT_ALGORITHM = "HS256"
 ACCESS_TOKEN_EXPIRED_MINUTES = 30
 DEFAULT_TOKEN_EXPIRED_MINUTES = 15
 
-
+# Специальный класс для авторизации
 class OAuth2PasswordBearerCookie(OAuth2):
     def __init__(
         self,
@@ -77,7 +77,7 @@ def create_access_token(data: dict, expires_delta: Optional[timedelta] = None):
 async def get_current_user(token: str = Depends(security)):
     cred_except = HTTPException(
         status_code=401,
-        detail="Not validate cred",
+        detail="Not Authenticated",
         headers={"WWW-Authenticated": "Bearer"},
     )
 
@@ -99,9 +99,5 @@ async def get_current_user(token: str = Depends(security)):
         )
     except DoesNotExist:
         raise cred_except
-
-    print('\n\n')
-    print(type(db_user))
-    print('\n\n')
 
     return db_user

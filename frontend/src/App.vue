@@ -1,9 +1,24 @@
 <!-- ./frontend/src/App.vue --> 
 <template>
   <div id="app">
-    <router-view/>
+    <NavBar></NavBar>
+    <div class="main container">
+      <router-view></router-view>
+    </div>
   </div>
 </template>
+
+<script>
+
+import NavBar from "@/components/NavBar.vue";
+
+export default {
+  components: {
+    NavBar
+  }
+}
+
+</script>
 
 <style>
 #app {
@@ -12,5 +27,8 @@
   -moz-osx-font-smoothing: grayscale;
   text-align: center;
   color: #2c3e50;
+}
+.main {
+  padding-top: 5em;
 }
 </style>
