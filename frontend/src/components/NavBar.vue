@@ -10,7 +10,7 @@
                     <span class="navbar-toggler-icon"></span>
                 </button>
                 <div class="collapse navbar-collapse" id="navbarCollapse">
-                    <ul v-if="isLoggedIn">
+                    <ul v-if="isLoggedIn" class="navbar-nav me-auto mb-2 mb-md-0">
                         <li class="nav-item">
                             <route-link class="nav-link" to="/">Home</route-link>
                         </li>
