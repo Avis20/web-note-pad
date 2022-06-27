@@ -11,7 +11,18 @@ const actions = {
         await axios.post('register', form);
         let UserForm = new FormData();
         UserForm.append('username', form.username)
-        await dispatch('LogIn', UserForm)
+        UserForm.append('password', form.password)
+        await dispatch('login', UserForm)
+    },
+    async login({dispatch}, user) {
+        console.log(user);
+        await axios.post('login', user);
+        await dispatch('user_info');
+    },
+    async user_info({commit}) {
+        let {data} = await axios.get('user/info')
+        console.log(data);
+        await commit('SetUser', data)
     }
 }
 
