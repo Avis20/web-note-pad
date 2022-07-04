@@ -11,23 +11,24 @@ services:
     environment:
       # Путь до БД
       # PGPASSWORD=fastapi_pass psql -h localhost -p 5432 -U fastapi_user -d fastapi_dev
-      # postgres://{USER}:{PASSWORD}@{HOST}:{PORT}/{DB_NAME}
-      - DATABASE_URL=postgres://fastapi_user:fastapi_pass@database:5432/fastapi_dev
+      # postgresql://{USER}:{PASSWORD}@{HOST}:{PORT}/{DB_NAME}
+      - DATABASE_URL=postgresql://fastapi_user:fastapi_pass@database:5432/fastapi_dev
     # Монтируем во внутрь app директорию с исходным кодом python + poetry
     volumes:
       - ./backend/src:/app/src
       - ./backend/migrations:/app/migrations
+      - ./backend/alembic.ini:/app/alembic.ini
     # Запускаем приложение через uvicorn
     command: "poetry run python src/main.py"
 
-  frontend:
-    build: ./frontend
-    restart: unless-stopped
-    ports:
-      - 8080:8080
-    volumes:
-      - ./frontend:/app
-      # - /app/node_modules
+  # frontend:
+  #   build: ./frontend
+  #   restart: unless-stopped
+  #   ports:
+  #     - 8080:8080
+  #   volumes:
+  #     - ./frontend:/app
+  #     # - /app/node_modules
 
   # pgbouncer:
 
