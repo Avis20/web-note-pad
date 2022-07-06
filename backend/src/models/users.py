@@ -13,6 +13,6 @@ users_table = sa.Table(
     sa.Column("username", sa.String(20), unique=True),
     sa.Column("full_name", sa.String(20), nullable=True),
     sa.Column("password", sa.String(128), nullable=True),
-    sa.Column("created_at", sa.TIMESTAMP(0), server_default=func.now()),
-    sa.Column("modified_at", sa.TIMESTAMP(0), server_default=func.now()),
+    sa.Column("created_at", sa.TIMESTAMP(timezone=False), server_default=func.now()),
+    sa.Column("modified_at", sa.TIMESTAMP(timezone=False), server_default=func.now()),
 )

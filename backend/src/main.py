@@ -7,6 +7,7 @@ from fastapi import FastAPI
 
 from fastapi.middleware.cors import CORSMiddleware
 
+from src.models.database import database
 from src.settings import get_settings
 from src.routers import users
 
@@ -21,6 +22,19 @@ logger.setLevel(logging.DEBUG)
 logger.setFormatter(fmt)
 
 app = FastAPI()
+
+
+@app.on_event("startup")
+async def startup():
+    # когда приложение запускается устанавливаем соединение с БД
+    await database.connect()
+
+
+@app.on_event("shutdown")
+async def shutdown():
+    # когда приложение останавливается разрываем соединение с БД
+    await database.disconnect()
+
 
 # cors доступы к сайту
 app.add_middleware(
