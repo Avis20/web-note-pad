@@ -15,3 +15,11 @@ router = APIRouter()
 )
 async def create_user(user: UserInSchema) -> UserOutSchema:
     return await users_services.create_user(user)
+
+
+@router.get(
+    "/user/info",
+    response_model=UserOutSchema,
+)
+async def user_info(user_id: int) -> UserOutSchema:
+    return await users_services.get_user(user_id)

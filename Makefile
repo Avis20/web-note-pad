@@ -25,6 +25,9 @@ run_tests: ## Run tests in docker-compose
 	touch .env
 	docker-compose -f docker-compose.yml -f docker-compose.override.yml -f docker-compose.test.yml run doc-backend
 
+init_db:
+	docker-compose exec backend poetry run alembic upgrade head
+
 .PHONY: lint
 lint: flake8
 
