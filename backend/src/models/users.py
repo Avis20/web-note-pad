@@ -1,6 +1,5 @@
 # ./backend/models/users.py
 
-
 import sqlalchemy as sa
 from sqlalchemy import func
 

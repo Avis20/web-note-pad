@@ -22,7 +22,6 @@ async def create_user(user: UserInSchema) -> UserOutSchema:
 
     print("\n\n user_obj")
     print(type(user_obj))
-    print(vars(user_obj))
     print("\n\n")
     return UserOutSchema.from_orm(user_obj)
 

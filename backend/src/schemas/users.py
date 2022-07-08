@@ -13,7 +13,7 @@ class UserInSchema(BaseModel):
 class UserOutSchema(BaseModel):
     id: int
     username: str
-    full_name: str
+    full_name: str | None = None
     created_at: datetime
     modified_at: datetime
 
