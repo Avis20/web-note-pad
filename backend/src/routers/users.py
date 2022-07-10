@@ -1,12 +1,21 @@
 # ./backend/src/routers/users.py
 
+from datetime import timedelta
 
-from fastapi import APIRouter
-from src.schemas.users import UserInSchema, UserOutSchema
+from fastapi import APIRouter, Depends, status
+from fastapi.exceptions import HTTPException
+from fastapi.security import OAuth2PasswordRequestForm
+from fastapi.responses import JSONResponse
+
 import src.services.users as users_services
+from src.schemas.users import UserInSchema, UserOutSchema
+from src.internal.auth.users import validate_user
+from src.internal.auth.jwthandler import (
+    create_access_token,
+    ACCESS_TOKEN_EXPIRED_MINUTES,
+)
 
 router = APIRouter()
-
 
 @router.post(
     "/register",
@@ -17,9 +26,28 @@ async def create_user(user: UserInSchema) -> UserOutSchema:
     return await users_services.create_user(user)
 
 
-@router.get(
-    "/user/info",
-    response_model=UserOutSchema,
-)
-async def user_info(user_id: int) -> UserOutSchema:
-    return await users_services.get_user(user_id)
+@router.post("/login", description="Логин")
+async def login_user(user: OAuth2PasswordRequestForm = Depends()):
+    user = await validate_user(user)
+
+    if not user:
+        raise HTTPException(
+            status_code=status.HTTP_404_NOT_FOUND, detail="User not found"
+        )
+
+    access_token_expired = timedelta(minutes=ACCESS_TOKEN_EXPIRED_MINUTES)
+    access_token = create_access_token(
+        data={"sub": user.username}, expires_delta=access_token_expired
+    )
+    token = access_token
+    content = {"message": "Loggined", "success": 1}
+    response = JSONResponse(content)
+    response.set_cookie(
+        "Authorization",
+        value=f"Bearer: {token}",
+        httponly=True,
+        max_age=1800,
+        expires=1800,
+        secure=False,
+    )
+    return response

@@ -19,3 +19,13 @@ class UserOutSchema(BaseModel):
 
     class Config:
         orm_mode = True
+
+
+class UserDatabaseSchema(BaseModel):
+    id: int
+    username: str
+    full_name: str | None = None
+    password: str
+
+    class Config:
+        orm_mode = True
