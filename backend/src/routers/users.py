@@ -12,6 +12,7 @@ from src.schemas.users import UserInSchema, UserOutSchema
 from src.internal.auth.users import validate_user
 from src.internal.auth.jwthandler import (
     create_access_token,
+    get_current_user,
     ACCESS_TOKEN_EXPIRED_MINUTES,
 )
 
@@ -51,3 +52,13 @@ async def login_user(user: OAuth2PasswordRequestForm = Depends()):
         secure=False,
     )
     return response
+
+
+@router.get(
+    "/user/info",
+    response_model=UserOutSchema,
+    description="Получение информации о текущем (залогиненом) пользователе",
+)
+async def user_info(current_user: UserOutSchema = Depends(get_current_user)):
+    return current_user
+

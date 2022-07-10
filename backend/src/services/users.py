@@ -1,7 +1,7 @@
 # ./backend/src/services/users.py
 
 from passlib.context import CryptContext
-from asyncpg.exceptions import UniqueViolationError
+from psycopg2.errors import UniqueViolation
 from sqlalchemy.sql import insert, select
 from fastapi.exceptions import HTTPException
 from fastapi import status
@@ -19,8 +19,8 @@ async def create_user(user: UserInSchema) -> UserOutSchema:
 
     try:
         user_obj = await database.fetch_one(query)
-    except UniqueViolationError:
-        raise HTTPException(status_code=409, detail="username already exists")
+    except UniqueViolation:
+        raise HTTPException(status_code=409, detail="Username already exists")
 
     return UserOutSchema.from_orm(user_obj)
 
