@@ -12,18 +12,27 @@
                 <div class="collapse navbar-collapse" id="navbarCollapse">
                     <ul v-if="isLoggedIn" class="navbar-nav me-auto mb-2 mb-md-0">
                         <li class="nav-item">
-                            <route-link class="nav-link" to="/">Home</route-link>
+                            <router-link class="nav-link" to="/">Главная</router-link>
+                        </li>
+                        <li class="nav-item">
+                            <router-link class="nav-link" to="/dashboard">Панель управления</router-link>
+                        </li>
+                        <li class="nav-item">
+                            <router-link class="nav-link" to="/profile">Мой профиль</router-link>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" @click="logout">Выйти</a>
                         </li>
                     </ul>
                     <ul v-else class="navbar-nav me-auto mb-2 mb-md-0">
                         <li class="nav-item">
-                            <route-link class="nav-link" to="/">Home</route-link>
+                            <router-link class="nav-link" to="/">Главная</router-link>
                         </li>
                         <li class="nav-item">
-                            <route-link class="nav-link" to="/register">Register</route-link>
+                            <router-link class="nav-link" to="/register">Регистрация</router-link>
                         </li>
                         <li class="nav-item">
-                            <route-link class="nav-link" to="/login">Login</route-link>
+                            <router-link class="nav-link" to="/login">Войти</router-link>
                         </li>
                     </ul>
                 </div>
@@ -39,6 +48,12 @@ export default {
     computed: {
         isLoggedIn: function() {
             return this.$store.getters.isAuth;
+        }
+    },
+    methods: {
+        async logout() {
+            await this.$store.dispatch('logout');
+            this.$router.push('login');
         }
     }
 }

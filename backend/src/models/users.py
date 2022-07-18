@@ -23,7 +23,7 @@ class User(BaseModel):
         nullable=True,
     )
     password = sa.Column(
-        sa.String(128),
+        sa.String(256),
         nullable=True,
     )
     created_at = sa.Column(

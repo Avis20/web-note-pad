@@ -9,6 +9,7 @@ from fastapi.responses import JSONResponse
 
 import src.services.users as users_services
 from src.schemas.users import UserInSchema, UserOutSchema
+from src.schemas.base import Status
 from src.internal.auth.users import validate_user
 from src.internal.auth.jwthandler import (
     create_access_token,
@@ -17,6 +18,7 @@ from src.internal.auth.jwthandler import (
 )
 
 router = APIRouter()
+
 
 @router.post(
     "/register",
@@ -61,4 +63,11 @@ async def login_user(user: OAuth2PasswordRequestForm = Depends()):
 )
 async def user_info(current_user: UserOutSchema = Depends(get_current_user)):
     return current_user
+
+@router.delete(
+    "user/{user_id}",
+    response_model=Status,
+)
+async def user_delete(user_id: int, current_user: UserOutSchema = Depends(get_current_user)) -> Status:
+    return await users_services.delete_user(user_id, current_user)
 

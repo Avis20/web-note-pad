@@ -9,6 +9,7 @@ from fastapi import status
 from src.schemas.users import UserInSchema, UserOutSchema, UserDatabaseSchema
 from src.models.database import database
 from src.models.users import User
+from src.schemas.base import Status
 
 pwd_context = CryptContext(schemes=["bcrypt"])
 
@@ -42,3 +43,9 @@ async def get_user(username: str) -> UserDatabaseSchema:
         )
 
     return UserDatabaseSchema.from_orm(user_obj)
+
+async def delete_user(user_id: int, current_user) -> Status:
+    print('\n\n')
+    print(current_user)
+    print('\n\n')
+    pass
