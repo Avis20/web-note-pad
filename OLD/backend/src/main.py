@@ -4,14 +4,18 @@ import logging
 from os import sys
 from uvicorn import run
 from fastapi import FastAPI
+from tortoise import Tortoise
 
 from fastapi.middleware.cors import CORSMiddleware
 
-from src.models.database import database
-from src.settings import get_settings
-from src.routers import users
+from src.database.register import register_tortoise
+from src.database.config import TORTOISE_ORM
 
-settings = get_settings()
+# разрешим схемам читать связи между моделями
+# зачем?
+# Tortoise.init_models(["src.database.models"], "models")
+
+from src.routes import users
 
 fmt = logging.Formatter(
     fmt="%(asctime)s - %(name)s:%(lineno)d - %(levelname)s - %(message)s",
@@ -21,20 +25,16 @@ logger = logging.StreamHandler(sys.stdout)
 logger.setLevel(logging.DEBUG)
 logger.setFormatter(fmt)
 
+# will print debug sql
+logger_db_client = logging.getLogger("db_client")
+logger_db_client.setLevel(logging.DEBUG)
+logger_db_client.addHandler(logger)
+
+logger_tortoise = logging.getLogger("tortoise")
+logger_tortoise.setLevel(logging.DEBUG)
+logger_tortoise.addHandler(logger)
+
 app = FastAPI()
-
-
-@app.on_event("startup")
-async def startup():
-    # когда приложение запускается устанавливаем соединение с БД
-    await database.connect()
-
-
-@app.on_event("shutdown")
-async def shutdown():
-    # когда приложение останавливается разрываем соединение с БД
-    await database.disconnect()
-
 
 # cors доступы к сайту
 app.add_middleware(
@@ -46,6 +46,7 @@ app.add_middleware(
 )
 app.include_router(users.router)
 
+register_tortoise(app, config=TORTOISE_ORM, generate_schemas=False)
 
 @app.get("/")
 def root():

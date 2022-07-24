@@ -20,8 +20,7 @@ ENV PYTHONPATH=.
 # не создавать .pyc файлы в контейнере
 ENV PYTHONDONTWRITEBYTECODE 1
 
-COPY ./src .
-COPY migrations .
-COPY alembic.ini .
+COPY ./src /src
+COPY migrations ./migrations
 
 CMD ["poetry", "run", "python", "src/main.py"]

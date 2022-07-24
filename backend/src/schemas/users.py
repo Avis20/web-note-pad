@@ -1,20 +1,29 @@
-# ./backend/src/schemas/users.py
-from tortoise.contrib.pydantic import pydantic_model_creator
-from src.database.models import Users
+# ./backend/schemas/users.py
 
-# Создаем схему на вход
-# pydantic_model_creator - хелпер который создает из модели tortoise, схему pydantic
-# UserInSchema - нужна для создания новых пользователей
-# exclude_readonly - исключить поля которые readonly т.е. id, Datetime с auto_* и т.п.
-UserInSchema = pydantic_model_creator(
-    Users, name="UserIn", exclude_readonly=True
-)
+from pydantic import BaseModel
+from datetime import datetime
 
-# UserOutSchema - возвращается из апи
-UserOutSchema = pydantic_model_creator(
-    Users, name="UserOut", exclude=["password", "created_at", "modified_at"]
-)
 
-UserDatabaseSchema = pydantic_model_creator(
-    Users, name="User", exclude=["created_at", "modified_at"]
-)
+class UserInSchema(BaseModel):
+    username: str
+    full_name: str | None = None
+    password: str
+
+
+class UserOutSchema(BaseModel):
+    id: int
+    username: str
+    full_name: str | None = None
+
+    class Config:
+        orm_mode = True
+
+
+class UserDatabaseSchema(BaseModel):
+    id: int
+    username: str
+    full_name: str | None = None
+    password: str
+
+    class Config:
+        orm_mode = True
