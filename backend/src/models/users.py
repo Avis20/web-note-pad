@@ -38,4 +38,4 @@ class Users(BaseModel):
         server_default=func.now(),
         server_onupdate=func.now(),
     )
-    notes = relationship("notes")
+    notes = relationship("Notes")
