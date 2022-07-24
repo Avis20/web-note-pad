@@ -1,7 +1,9 @@
 # ./backend/models/notes.py
 
 import sqlalchemy as sa
+
 from src.models.database import BaseModel
+from src.models.users import Users
 
 class Notes(BaseModel):
 
@@ -12,5 +14,11 @@ class Notes(BaseModel):
         primary_key=True
     )
     title = sa.Column(
-        sa.Text(256),
+        sa.String(256),
+        nullable=False,
     )
+    content = sa.Column(
+        sa.Text,
+        nullable=True,
+    )
+    owner_id = sa.Column(sa.Integer, sa.ForeignKey("users.id"))

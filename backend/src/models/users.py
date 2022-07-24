@@ -2,6 +2,7 @@
 
 import sqlalchemy as sa
 from sqlalchemy import func
+from sqlalchemy.orm import relationship
 
 from src.models.database import BaseModel
 
@@ -37,3 +38,4 @@ class Users(BaseModel):
         server_default=func.now(),
         server_onupdate=func.now(),
     )
+    notes = relationship("notes")

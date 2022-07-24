@@ -1,12 +1,13 @@
 FROM node:lts-alpine
 
-WORKDIR /app
+WORKDIR /data/
 
-RUN npm install -g npm
-RUN npm install -g @vue/cli
+COPY package.json /data/
 
-COPY package.json .
-COPY package-lock.json .
 RUN npm install
+ENV PATH /data/node_modules/.bin:$PATH
+
+COPY . /data/app/
+WORKDIR /data/app/
 
 CMD ["npm", "run", "serve"]
