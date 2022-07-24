@@ -8,7 +8,7 @@ from fastapi import status
 
 from src.schemas.users import UserInSchema, UserOutSchema, UserDatabaseSchema
 from src.models.database import database
-from src.models.users import User
+from src.models.users import Users
 from src.schemas.base import Status
 
 pwd_context = CryptContext(schemes=["bcrypt"])
@@ -16,7 +16,7 @@ pwd_context = CryptContext(schemes=["bcrypt"])
 
 async def create_user(user: UserInSchema) -> UserOutSchema:
     user.password = pwd_context.encrypt(user.password)
-    query = insert(User).values(user.dict(exclude_none=True)).returning(User)
+    query = insert(Users).values(user.dict(exclude_none=True)).returning(Users)
 
     try:
         user_obj = await database.fetch_one(query)
@@ -28,7 +28,7 @@ async def create_user(user: UserInSchema) -> UserOutSchema:
 
 async def get_user(username: str) -> UserDatabaseSchema:
     user_obj = None
-    query = select(User).where(User.username == username)
+    query = select(Users).where(Users.username == username)
 
     try:
         user_obj = await database.fetch_one(query)
@@ -52,7 +52,7 @@ async def delete_user(user_id: int, current_user: UserDatabaseSchema) -> Status:
             status_code=status.HTTP_403_FORBIDDEN, detail="access denied"
         )
 
-    query = delete(User).where(User.id == current_user.id)
+    query = delete(Users).where(Users.id == current_user.id)
 
     try:
         await database.execute(query)

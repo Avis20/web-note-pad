@@ -4,7 +4,6 @@ WORKDIR /app
 
 RUN npm install -g npm
 RUN npm install -g @vue/cli
-RUN npm install -g @vue/cli-service
 
 COPY package.json .
 COPY package-lock.json .

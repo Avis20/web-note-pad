@@ -6,7 +6,7 @@ from sqlalchemy import func
 from src.models.database import BaseModel
 
 
-class User(BaseModel):
+class Users(BaseModel):
 
     __tablename__ = "users"
 
