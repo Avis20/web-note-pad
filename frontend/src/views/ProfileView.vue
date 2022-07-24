@@ -1,3 +1,4 @@
+
 <template>
     <section>
         <h1>Ваш профиль</h1>
@@ -24,12 +25,13 @@ export default {
     methods: {
         ...mapActions(['delete_user']),
         async deleteUser() {
-            console.log('AAAAAAAAa');
-            await this.delete_user(this.user.id)
-            // try {
-            // } catch (error) {
-            //     console.error(error);
-            // }
+            try {
+                await this.delete_user(this.user.id)
+                await this.$store.dispatch('logout')
+                await this.$router.push('/')
+            } catch (error) {
+                console.error(error);
+            }
         }
     }
 }

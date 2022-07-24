@@ -2,7 +2,7 @@
 
 from passlib.context import CryptContext
 from psycopg2.errors import UniqueViolation
-from sqlalchemy.sql import insert, select
+from sqlalchemy.sql import insert, delete, select
 from fastapi.exceptions import HTTPException
 from fastapi import status
 
@@ -44,8 +44,21 @@ async def get_user(username: str) -> UserDatabaseSchema:
 
     return UserDatabaseSchema.from_orm(user_obj)
 
-async def delete_user(user_id: int, current_user) -> Status:
-    print('\n\n')
-    print(current_user)
-    print('\n\n')
-    pass
+
+async def delete_user(user_id: int, current_user: UserDatabaseSchema) -> Status:
+
+    if current_user.id != user_id:
+        raise HTTPException(
+            status_code=status.HTTP_403_FORBIDDEN, detail="access denied"
+        )
+
+    query = delete(User).where(User.id == current_user.id)
+
+    try:
+        await database.execute(query)
+    except Exception as e:
+        print("\n\n")
+        print(e)
+        print("\n\n")
+
+    return Status(message="success")

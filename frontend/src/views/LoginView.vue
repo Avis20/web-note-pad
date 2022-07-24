@@ -32,8 +32,13 @@ export default {
             const User = new FormData()
             User.append('username', this.form.username)
             User.append('password', this.form.password)
-            await this.login(User);
-            this.$router.push('/dashboard');
+            try {
+                await this.login(User);
+                this.$router.push('/dashboard');
+            } catch (error) {
+                alert(error);
+                console.error(error);
+            }
         }
     }
 }

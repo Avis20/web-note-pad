@@ -10,6 +10,7 @@ from jose import JWTError, jwt
 
 from src.services.users import get_user
 from src.schemas.token import TokenData
+from src.schemas.users import UserDatabaseSchema
 
 JWT_SECRET_KEY = getenv("SECRET_KEY", "test123")
 JWT_ALGORITHM = "HS256"
@@ -71,7 +72,7 @@ def create_access_token(data: dict, expires_delta: Optional[timedelta] = None):
     return encoded_jwt
 
 
-async def get_current_user(token: str = Depends(security)):
+async def get_current_user(token: str = Depends(security)) -> UserDatabaseSchema:
     print(f"\nInput JWT TOKEN = {token}\n")
     auth_except = HTTPException(
         status_code=401,
@@ -82,14 +83,12 @@ async def get_current_user(token: str = Depends(security)):
     try:
         payload = jwt.decode(token, JWT_SECRET_KEY, algorithms=[JWT_ALGORITHM])
         print(f"payload: type={type(payload)}; {payload}")
-        username: str | None = payload.get("sub")
+        username = payload.get("sub")
         if username is None:
             raise auth_except
-        # Зачем TokenData ?
-        token_data = TokenData(username=username)
     except JWTError as e:
         print(e)
         raise auth_except
 
-    db_user = await get_user(username=token_data.username)
+    db_user = await get_user(username=username)
     return db_user

@@ -33,10 +33,10 @@ const actions = {
         let user = null;
         commit('logout', user);
     },
-    /*// eslint-disable-next-line no-empty-pattern*/
-    async delete_user({dispatch}, id) {
+    // eslint-disable-next-line no-empty-pattern
+    async delete_user({}, id) {
         console.log('id', id);
-        await dispatch('user_info')
+        await axios.delete(`user/${id}`)
     }
 }
 

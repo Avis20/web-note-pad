@@ -1,7 +1,7 @@
 # ./backend/src/main.py
 
 import logging
-from os import sys
+import sys
 from uvicorn import run
 from fastapi import FastAPI
 
