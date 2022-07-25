@@ -8,8 +8,8 @@ services:
     # Определяем порты на которых будет запущен бекенд и по которому будет доступно подключение
     ports:
       - 5000:5000
-    # Монтируем во внутрь app директорию с исходным кодом python + poetry
     env_file: .env
+    # Монтируем во внутрь app директорию с исходным кодом python + poetry
     volumes:
       - ./backend/src:/app/src
       - ./backend/migrations:/app/migrations
@@ -20,6 +20,7 @@ services:
   frontend:
     build: ./frontend
     restart: unless-stopped
+    env_file: .env
     ports:
       - 8080:8080
     # command: sleep infinity

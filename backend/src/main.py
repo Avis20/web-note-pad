@@ -9,7 +9,7 @@ from fastapi.middleware.cors import CORSMiddleware
 
 from src.models.database import database
 from src.settings import get_settings
-from src.routers import users
+from src.routers.base import api_router
 
 settings = get_settings()
 
@@ -44,13 +44,7 @@ app.add_middleware(
     allow_methods="*",
     allow_headers="*",
 )
-app.include_router(users.router)
-
-
-@app.get("/")
-def root():
-    return "hello world"
-
+app.include_router(api_router)
 
 if __name__ == "__main__":
     run("main:app", host="0.0.0.0", port=5000, reload=True)
