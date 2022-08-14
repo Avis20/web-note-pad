@@ -11,7 +11,7 @@ import store from './store'
 
 axios.defaults.withCredentials = true;
 // Укажем хост до backend-а
-axios.defaults.baseURL = process.env.BACKEND_HOST;
+axios.defaults.baseURL = process.env.VUE_APP_BACKEND_HOST;
 Vue.config.productionTip = false;
 
 new Vue({

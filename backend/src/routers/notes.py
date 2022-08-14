@@ -22,15 +22,27 @@ async def list_notes(current_user: UserOutSchema = Depends(get_current_user)):
     return await note_services.get_note_list(author_id=current_user.id)
 
 
-@router.post("/add", description="Добавить заметку", response_model=NotesOutSchema)
-async def add_note(
-    note: NoteInSchema, current_user: UserOutSchema = Depends(get_current_user)
-) -> NotesOutSchema:
+@router.post(
+    "/add",
+    description="Добавить заметку",
+    response_model=NotesOutSchema
+)
+async def add_note(note: NoteInSchema, current_user: UserOutSchema = Depends(get_current_user)) -> NotesOutSchema:
     return await note_services.add_note(author_id=current_user.id, note=note)
 
 
+@router.get(
+    "/get/{note_id}",
+    description="Получить информацию о заметке",
+    response_model=NotesOutSchema
+)
+async def get_note(note_id: int):
+    return await note_services.get_note(note_id)
+
 @router.delete(
-    "/delete/{note_id}", description="Удалить заметку", response_model=Status
+    "/delete/{note_id}",
+    description="Удалить заметку",
+    response_model=Status
 )
 async def delete_note(
     note_id: int, current_user: UserOutSchema = Depends(get_current_user)

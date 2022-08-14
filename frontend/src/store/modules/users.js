@@ -13,7 +13,7 @@ const getters = {
 
 const actions = {
     async register({dispatch}, form) {
-        await axios.post('register', form);
+        await axios.post('/user/register', form);
         let UserForm = new FormData();
         UserForm.append('username', form.username)
         UserForm.append('password', form.password)
@@ -21,7 +21,7 @@ const actions = {
     },
     async login({dispatch}, user) {
         console.log('user', user);
-        await axios.post('login', user);
+        await axios.post('user/login', user);
         await dispatch('user_info');
     },
     async user_info({commit}) {
@@ -36,7 +36,7 @@ const actions = {
     // eslint-disable-next-line no-empty-pattern
     async delete_user({}, id) {
         console.log('id', id);
-        await axios.delete(`user/${id}`)
+        await axios.delete(`user/delete/${id}`)
     }
 }
 

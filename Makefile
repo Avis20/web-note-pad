@@ -1,6 +1,6 @@
 .DEFAULT_GOAL := help
 
-include .env
+-include .env
 export
 
 .PHONY: black
@@ -13,8 +13,8 @@ build: ## Build images
 
 .PHONY: up
 up: ## Up all services locally with docker-compose
-	cp -u ./env/docker.env ./.docker.env
-	cp -u ./env/local.env ./.env
+	ln -f env/docker.env .docker.env
+	ln -f env/local.env .env
 	docker-compose up
 
 .PHONY: down

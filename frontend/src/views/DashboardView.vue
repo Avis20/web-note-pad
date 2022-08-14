@@ -1,9 +1,8 @@
 
-
 <template>
     <div>
         <section>
-            <h1>Добавить новую заметку</h1>
+            <h3>Добавить новую заметку</h3>
             <hr><br>
             
             <form @submit.prevent="submit">
@@ -19,11 +18,47 @@
             </form>
 
         </section>
+        
+        <br><br>
+
+        <h3>Заметки</h3>
+        <hr><br>
+        <div v-if="notes.length">
+            <div v-for="note in notes" :key="note.id">
+            <div class="card">
+                <div class="card-body">
+                    <ul>
+                        <li><b>Заметка:</b> {{ note.title }}</li>
+                        <li><b>Автор:</b> {{ note.id }}</li>
+                        <li><router-link :to="{name: 'NoteView', params:{id: note.id}}">Подробнее</router-link></li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+            
+        </div>
+
     </div>
 </template>
 
+<style>
+.card {
+    margin-right: 20px;
+    width: 20rem;
+    float: left;
+}
+.card ul li {
+    text-align: left;
+}
+/*
+.card ul li {
+    list-style-type: none;
+}
+*/
+</style>
+
 <script>
-import { mapActions } from 'vuex'
+import { mapActions, mapGetters } from 'vuex'
 
 export default {
     name: 'DashboardVue',
@@ -35,9 +70,16 @@ export default {
             }
         }
     },
+    created: function() {
+        return this.$store.dispatch('getNotes')
+    },
+    computed: {
+        ...mapGetters({ notes: 'stateNotes' })
+    },
     methods: {
         ...mapActions(['createNote']),
         async submit() {
+            console.log(this.form);
             await this.createNote(this.form)
         }
     }

@@ -1,6 +1,6 @@
 # ./backend/src/services/notes.py
 
-from fastapi import HTTPException
+from fastapi import status, HTTPException
 from sqlalchemy.sql import select, insert, delete
 from psycopg2.errors import UniqueViolation
 
@@ -11,13 +11,25 @@ from src.schemas.base import Status
 
 
 async def get_note_list(author_id: int):
-    query = select(Notes).filter_by(author_id=author_id)
-
+    query = select(Notes).filter_by(author_id=author_id).order_by(Notes.id.desc())
     rows = await database.fetch_all(query)
-    print("\n\n")
-    print(rows)
-    print("\n\n")
+    # TODO: add author
     return rows
+
+
+async def get_note(note_id: int):
+    note_obj = None
+    query = select(Notes).where(Notes.id == note_id)
+
+    try:
+        note_obj = await database.fetch_one(query)
+    except Exception as e:
+        print(e)
+
+    if note_obj is None:
+        raise HTTPException(status_code=status.HTTP_404_NOT_FOUND, detail="Note not found")
+
+    return NotesOutSchema.from_orm(note_obj)
 
 
 async def add_note(author_id: int, note: NoteInSchema) -> NotesOutSchema:
