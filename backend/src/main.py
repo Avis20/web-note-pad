@@ -13,6 +13,10 @@ from src.routers.base import api_router
 
 settings = get_settings()
 
+print('\n\n')
+print(settings.DATABASE_URL)
+print('\n\n')
+
 fmt = logging.Formatter(
     fmt="%(asctime)s - %(name)s:%(lineno)d - %(levelname)s - %(message)s",
     datefmt="%Y-%m-%d %H:%M:%S",

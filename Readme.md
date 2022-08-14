@@ -8,7 +8,6 @@
 
 ```
 docker-compose exec backend poetry run alembic revision --autogenerate -m "<название ревизии>"
-
 ```
 
 ### Запуск в debug режиме

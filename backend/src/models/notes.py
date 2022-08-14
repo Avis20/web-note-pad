@@ -21,4 +21,4 @@ class Notes(BaseModel):
         sa.Text,
         nullable=True,
     )
-    owner_id = sa.Column(sa.Integer, sa.ForeignKey("users.id"))
+    author_id = sa.Column(sa.Integer, sa.ForeignKey("users.id"))

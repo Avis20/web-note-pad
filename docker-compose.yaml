@@ -8,7 +8,7 @@ services:
     # Определяем порты на которых будет запущен бекенд и по которому будет доступно подключение
     ports:
       - 5000:5000
-    env_file: .env
+    env_file: .docker.env
     # Монтируем во внутрь app директорию с исходным кодом python + poetry
     volumes:
       - ./backend/src:/app/src
@@ -16,11 +16,12 @@ services:
       - ./backend/alembic.ini:/app/alembic.ini
     # Запускаем приложение через uvicorn
     command: "poetry run python src/main.py"
+    # command: "sleep infinity"
 
   frontend:
     build: ./frontend
     restart: unless-stopped
-    env_file: .env
+    env_file: .docker.env
     ports:
       - 8080:8080
     # command: sleep infinity

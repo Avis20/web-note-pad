@@ -1,5 +1,8 @@
 .DEFAULT_GOAL := help
 
+include .env
+export
+
 .PHONY: black
 black: ## Autoformat code by black
 	black .
@@ -10,13 +13,15 @@ build: ## Build images
 
 .PHONY: up
 up: ## Up all services locally with docker-compose
-	touch .env
+	cp -u ./env/docker.env ./.docker.env
+	cp -u ./env/local.env ./.env
 	docker-compose up
 
 .PHONY: down
 down: ## Down all services locally with docker-compose as daemon
 	docker-compose down
 
+.PHONY: uninstall
 uninstall: ## Complete remove containers and named volumes
 	docker-compose down --remove-orphans --volumes
 
@@ -25,8 +30,13 @@ run_tests: ## Run tests in docker-compose
 	touch .env
 	docker-compose -f docker-compose.yml -f docker-compose.override.yml -f docker-compose.test.yml run doc-backend
 
+.PHONY: init_db
 init_db:
 	docker-compose exec backend poetry run alembic upgrade head
+
+.PHONY: revision
+revision:
+	cd backend && poetry run alembic revision --autogenerate -m "$(m)"
 
 .PHONY: lint
 lint: flake8
