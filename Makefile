@@ -34,8 +34,8 @@ run_tests: ## Run tests in docker-compose
 init_db:
 	docker-compose exec backend poetry run alembic upgrade head
 
-.PHONY: revision
-revision:
+.PHONY: rev
+rev:
 	cd backend && poetry run alembic revision --autogenerate -m "$(m)"
 
 .PHONY: lint

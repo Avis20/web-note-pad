@@ -13,29 +13,21 @@ class Users(BaseModel):
 
     id = sa.Column(
         sa.Integer,
-        primary_key=True
-    )
+        primary_key=True)
     username = sa.Column(
         sa.String(20),
-        unique=True
-    )
+        unique=True)
     full_name = sa.Column(
         sa.String(20),
-        nullable=True,
-    )
+        nullable=True)
     password = sa.Column(
         sa.String(256),
-        nullable=True,
-    )
+        nullable=True)
     created_at = sa.Column(
         sa.TIMESTAMP(timezone=False),
-        nullable=False,
-        server_default=func.now(),
-    )
+        nullable=False, server_default=func.now())
     modified_at = sa.Column(
         sa.TIMESTAMP(timezone=False),
-        nullable=False,
-        server_default=func.now(),
-        server_onupdate=func.now(),
-    )
+        nullable=False, server_default=func.now(), server_onupdate=func.now())
+
     notes = relationship("Notes")

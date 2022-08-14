@@ -3,7 +3,7 @@
 import sqlalchemy as sa
 
 from src.models.database import BaseModel
-from src.models.users import Users
+
 
 class Notes(BaseModel):
 
@@ -11,14 +11,19 @@ class Notes(BaseModel):
 
     id = sa.Column(
         sa.Integer,
-        primary_key=True
-    )
+        primary_key=True,
+        comment="ID Заметки")
     title = sa.Column(
         sa.String(256),
         nullable=False,
-    )
+        comment="Заголовок заметки")
     content = sa.Column(
         sa.Text,
         nullable=True,
-    )
-    author_id = sa.Column(sa.Integer, sa.ForeignKey("users.id"))
+        comment="Содержание заметки")
+
+    author_id = sa.Column(
+        sa.Integer,
+        sa.ForeignKey("users.id"),
+        nullable=False,
+        comment="ID автора заметки")

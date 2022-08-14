@@ -6,8 +6,11 @@
 
 ### Создание новой ревизии
 
+
+~~```docker-compose exec backend poetry run alembic revision --autogenerate -m "<название ревизии>"```~~
+
 ```
-docker-compose exec backend poetry run alembic revision --autogenerate -m "<название ревизии>"
+make rev m="название ревизии"
 ```
 
 ### Запуск в debug режиме
