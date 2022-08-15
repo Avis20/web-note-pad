@@ -1,7 +1,6 @@
 # ./backend/schemas/users.py
 
 from pydantic import BaseModel
-from datetime import datetime
 
 
 class UserInSchema(BaseModel):

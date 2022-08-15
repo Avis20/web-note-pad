@@ -1,5 +1,9 @@
 # ./backend/models/notes.py
 
+"""
+Модель хранения заметок 
+"""
+
 import sqlalchemy as sa
 
 from src.models.database import BaseModel

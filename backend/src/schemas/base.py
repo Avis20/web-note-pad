@@ -1,3 +1,5 @@
+# ./backend/src/schemas/base.py
+
 from pydantic import BaseModel
 
 

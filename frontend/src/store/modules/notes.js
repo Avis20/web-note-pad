@@ -13,15 +13,15 @@ const getters = {
 
 const actions = {
     async createNote({dispatch}, note) {
-        await axios.post('note/add', note);
+        await axios.post('/v1/note/add', note);
         await dispatch('getNotes');
     },
     async getNotes({commit}) {
-        let {data} = await axios.get('note/list')
+        let {data} = await axios.get('/v1/note/list')
         commit('setNotes', data)
     },
     async viewNote({commit}, id) {
-        let {data} = await axios.get(`note/get/${id}`)
+        let {data} = await axios.get(`/v1/note/get/${id}`)
         commit('setNote', data)
     }
 }

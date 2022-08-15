@@ -1,9 +1,14 @@
+# ./backend/src/routers/root.py
+
 from fastapi import APIRouter
 
+"""
+Root роут
+"""
 
 router = APIRouter()
 
 
 @router.get("/")
 def root():
-    return "Hello Fastapi WebNotepad"
+    return "Hello WebNotepad"

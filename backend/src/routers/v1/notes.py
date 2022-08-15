@@ -1,4 +1,4 @@
-# ./backend/src/routers/notes.py
+# ./backend/src/routers/v1/notes.py
 
 
 from fastapi import APIRouter, Depends

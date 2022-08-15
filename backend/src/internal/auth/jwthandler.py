@@ -1,3 +1,9 @@
+# ./backend/src/internal/auth/jwthandler.py
+"""
+Хендлер для работы с jwt
+Используется в ...
+
+"""
 from os import getenv
 from typing import Optional
 from datetime import timedelta, datetime

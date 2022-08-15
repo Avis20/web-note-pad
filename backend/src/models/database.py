@@ -1,5 +1,7 @@
 # ./backend/models/database.py
-
+"""
+Модуль для работы с БД
+"""
 import logging
 import sys
 from databases import Database

@@ -5,7 +5,7 @@ import Register from '@/views/RegisterView.vue'
 import Login from '@/views/LoginView.vue'
 import Dashboard from '@/views/DashboardView.vue'
 import Profile from '@/views/ProfileView.vue'
-import Note from '@/views/NoteView.vue'
+// import Note from '@/views/NoteView.vue'
 
 Vue.use(VueRouter)
 
@@ -35,12 +35,12 @@ const routes = [
     name: 'profile',
     component: Profile
   },
-  {
-    path: '/note/:id',
-    name: 'Note',
-    component: Note,
-    // props: True
-  }
+  // {
+  //   path: '/note/:id',
+  //   name: 'Note',
+  //   component: Note,
+  //   // props: True
+  // }
 ]
 
 const router = new VueRouter({

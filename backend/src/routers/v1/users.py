@@ -1,4 +1,4 @@
-# ./backend/src/routers/users.py
+# ./backend/src/routers/v1/users.py
 
 from datetime import timedelta
 

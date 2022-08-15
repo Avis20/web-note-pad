@@ -1,5 +1,9 @@
 # ./backend/models/users.py
 
+"""
+Модель для хранения пользователей
+"""
+
 import sqlalchemy as sa
 from sqlalchemy import func
 from sqlalchemy.orm import relationship
