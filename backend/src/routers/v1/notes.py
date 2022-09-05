@@ -1,6 +1,5 @@
 # ./backend/src/routers/v1/notes.py
 
-
 from fastapi import APIRouter, Depends
 
 import src.services.notes as note_services
@@ -34,17 +33,18 @@ async def add_note(note: NoteInSchema, current_user: UserOutSchema = Depends(get
 @router.get(
     "/get/{note_id}",
     description="Получить информацию о заметке",
-    response_model=NotesOutSchema
+    response_model=NotesOutSchema,
+    dependencies=[Depends(get_current_user)]
 )
 async def get_note(note_id: int):
     return await note_services.get_note(note_id)
 
+
 @router.delete(
     "/delete/{note_id}",
     description="Удалить заметку",
-    response_model=Status
+    response_model=Status,
+    dependencies=[Depends(get_current_user)]
 )
-async def delete_note(
-    note_id: int, current_user: UserOutSchema = Depends(get_current_user)
-) -> Status:
+async def delete_note(note_id: int) -> Status:
     return await note_services.delete_note(note_id)

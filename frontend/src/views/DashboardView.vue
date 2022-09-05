@@ -30,7 +30,7 @@
                     <ul>
                         <li><b>Заметка:</b> {{ note.title }}</li>
                         <li><b>Автор:</b> {{ note.id }}</li>
-                        <li><router-link :to="{name: 'NoteView', params:{id: note.id}}">Подробнее</router-link></li>
+                        <li><router-link :to="{name: 'Note', params:{id: note.id}}">Подробнее</router-link></li>
                     </ul>
                 </div>
             </div>
@@ -71,16 +71,16 @@ export default {
         }
     },
     created: function() {
-        return this.$store.dispatch('getNotes')
+        return this.$store.dispatch('note_list')
     },
     computed: {
         ...mapGetters({ notes: 'stateNotes' })
     },
     methods: {
-        ...mapActions(['createNote']),
+        ...mapActions(['note_add']),
         async submit() {
             console.log(this.form);
-            await this.createNote(this.form)
+            await this.note_add(this.form)
         }
     }
 }

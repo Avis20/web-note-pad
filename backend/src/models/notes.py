@@ -1,11 +1,11 @@
 # ./backend/models/notes.py
 
 """
-Модель хранения заметок 
+Модель хранения заметок
 """
 
 import sqlalchemy as sa
-
+from sqlalchemy.orm import relationship
 from src.models.database import BaseModel
 
 
@@ -31,3 +31,5 @@ class Notes(BaseModel):
         sa.ForeignKey("users.id"),
         nullable=False,
         comment="ID автора заметки")
+
+    author = relationship("Users", back_populates="notes")

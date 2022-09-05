@@ -34,4 +34,4 @@ class Users(BaseModel):
         sa.TIMESTAMP(timezone=False),
         nullable=False, server_default=func.now(), server_onupdate=func.now())
 
-    notes = relationship("Notes")
+    notes = relationship("Notes", back_populates="author")

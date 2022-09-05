@@ -6,6 +6,7 @@ from psycopg2.errors import UniqueViolation
 
 from src.models.database import database
 from src.models.notes import Notes
+from src.models.users import Users
 from src.schemas.notes import NoteInSchema, NotesOutSchema
 from src.schemas.base import Status
 
@@ -19,7 +20,10 @@ async def get_note_list(author_id: int):
 
 async def get_note(note_id: int):
     note_obj = None
-    query = select(Notes).where(Notes.id == note_id)
+    query = select(Notes, Users).join(Users).where(Notes.id == note_id)
+
+    # for row in await database.fetch_all(query):
+    #    print(f"{row.Notes.name} {row.Address.email_address}")
 
     try:
         note_obj = await database.fetch_one(query)

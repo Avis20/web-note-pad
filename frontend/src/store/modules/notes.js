@@ -12,17 +12,21 @@ const getters = {
 }
 
 const actions = {
-    async createNote({dispatch}, note) {
+    async note_add({dispatch}, note) {
         await axios.post('/v1/note/add', note);
-        await dispatch('getNotes');
+        await dispatch('note_list');
     },
-    async getNotes({commit}) {
+    async note_list({commit}) {
         let {data} = await axios.get('/v1/note/list')
         commit('setNotes', data)
     },
-    async viewNote({commit}, id) {
+    async note_get({commit}, id) {
         let {data} = await axios.get(`/v1/note/get/${id}`)
         commit('setNote', data)
+    },
+    // eslint-disable-next-line no-empty-pattern
+    async note_delete({}, id) {
+        await axios.delete(`/v1/note/delete/${id}`)
     }
 }
 
