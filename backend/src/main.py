@@ -7,7 +7,7 @@ from fastapi import FastAPI
 
 from fastapi.middleware.cors import CORSMiddleware
 
-from src.models.database import database
+from src.models.database import db_session
 from src.settings import get_settings
 from src.routers.base import api_router
 
@@ -27,13 +27,15 @@ app = FastAPI()
 @app.on_event("startup")
 async def startup():
     # когда приложение запускается устанавливаем соединение с БД
-    await database.connect()
+    # await database.connect()
+    pass
 
 
 @app.on_event("shutdown")
 async def shutdown():
     # когда приложение останавливается разрываем соединение с БД
-    await database.disconnect()
+    # await database.disconnect()
+    pass
 
 
 # cors доступы к сайту

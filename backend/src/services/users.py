@@ -2,36 +2,38 @@
 
 from passlib.context import CryptContext
 from psycopg2.errors import UniqueViolation
+from sqlalchemy.orm import Session
+
 from sqlalchemy.sql import insert, delete, select
 from fastapi.exceptions import HTTPException
 from fastapi import status
 
 from src.schemas.users import UserInSchema, UserOutSchema, UserDatabaseSchema
-from src.models.database import database
+
+# from src.models.database import database
 from src.models.users import Users
 from src.schemas.base import Status
 
 pwd_context = CryptContext(schemes=["bcrypt"])
 
 
-async def create_user(user: UserInSchema) -> UserOutSchema:
+def create_user(user: UserInSchema, db_session: Session) -> UserOutSchema:
     user.password = pwd_context.encrypt(user.password)
-    query = insert(Users).values(user.dict(exclude_none=True)).returning(Users)
+    user = Users(**user.dict(exclude_none=True))
 
     try:
-        user_obj = await database.fetch_one(query)
+        user_obj = user.save(db_session)
     except UniqueViolation:
         raise HTTPException(status_code=409, detail="Username already exists")
 
     return UserOutSchema.from_orm(user_obj)
 
 
-async def get_user(username: str) -> UserDatabaseSchema:
+def get_user(username: str, db_session: Session) -> UserDatabaseSchema:
     user_obj = None
-    query = select(Users).where(Users.username == username)
 
     try:
-        user_obj = await database.fetch_one(query)
+        user_obj = Users.find(db_session, field="username", value=username)
     except Exception as e:
         print("\n\n")
         print(e)
@@ -45,17 +47,17 @@ async def get_user(username: str) -> UserDatabaseSchema:
     return UserDatabaseSchema.from_orm(user_obj)
 
 
-async def delete_user(user_id: int, current_user: UserDatabaseSchema) -> Status:
+def delete_user(
+    user_id: int, current_user: UserDatabaseSchema, db_session: Session
+) -> Status:
 
     if current_user.id != user_id:
         raise HTTPException(
             status_code=status.HTTP_403_FORBIDDEN, detail="access denied"
         )
 
-    query = delete(Users).where(Users.id == current_user.id)
-
     try:
-        await database.execute(query)
+        Users.delete(db_session, current_user.id)
     except Exception as e:
         print("\n\n")
         print(e)

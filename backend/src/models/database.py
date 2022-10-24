@@ -4,8 +4,9 @@
 """
 import logging
 import sys
-from databases import Database
-from sqlalchemy import MetaData
+from typing import Generator
+import sqlalchemy as sa
+from sqlalchemy.orm import sessionmaker
 from sqlalchemy.ext.declarative import declarative_base
 from src.settings import get_settings
 
@@ -13,12 +14,25 @@ settings = get_settings()
 
 if settings.DB_ECHO_LOG:
     logger = logging.StreamHandler(sys.stdout)
+    logger_sa = logging.getLogger("sqlalchemy")
+    logger_sa.setLevel(logging.INFO)
+    logger_sa.addHandler(logger)
 
-    logger_db = logging.getLogger("databases")
-    logger_db.setLevel(logging.DEBUG)
-    logger_db.addHandler(logger)
-
-metadata = MetaData()
+engine = sa.create_engine(
+    settings.db_master_uri,
+    echo=True,
+)
+metadata = sa.MetaData()
 BaseModel = declarative_base(metadata=metadata)
 
-database = Database(settings.DATABASE_URL)
+sync_session = sessionmaker(
+    bind=engine, autocommit=False, autoflush=True
+)
+
+def db_session() -> Generator:
+    with sync_session() as session:
+        try:
+            yield session
+            session.commit()
+        except Exception:
+            print('AAAAAAAAA')

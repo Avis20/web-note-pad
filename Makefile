@@ -34,6 +34,14 @@ run_tests: ## Run tests in docker-compose
 init_db:
 	docker-compose exec backend poetry run alembic upgrade head
 
+
+.PHONY: truncate_db
+truncate_db:
+	PGPASSWORD=${PG_MASTER_PASSWORD} psql -h ${PG_MASTER_HOST} -p ${PG_MASTER_PORT}\
+		-U ${PG_MASTER_USER} -d ${PG_MASTER_DB_NAME} -c 'TRUNCATE public."users" CASCADE;'
+
+
+
 .PHONY: rev
 rev:
 	cd backend && poetry run alembic revision --autogenerate -m "$(m)"

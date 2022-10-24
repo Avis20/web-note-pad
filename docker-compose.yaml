@@ -17,6 +17,9 @@ services:
     # Запускаем приложение через uvicorn
     command: "poetry run python src/main.py"
     # command: "sleep infinity"
+    networks:
+      local:
+        ipv4_address: "192.168.0.2"
 
   frontend:
     build: ./frontend
@@ -28,6 +31,9 @@ services:
     volumes:
       - ./frontend:/data/app
       - node_modules:/app/node_modules
+    networks:
+      local:
+        ipv4_address: "192.168.0.3"
 
   # pgbouncer:
 
@@ -41,7 +47,18 @@ services:
       - POSTGRES_DB=fastapi_dev
     volumes:
       - db:/var/lib/postgresql/data/
+    networks:
+      local:
+        ipv4_address: "192.168.0.4"
 
 volumes:
   db:
   node_modules:
+
+networks:
+  local:
+    name: web_notepad
+    ipam:
+      driver: default
+      config:
+        - subnet: "192.168.0.0/20"

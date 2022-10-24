@@ -4,14 +4,15 @@ from fastapi import status, HTTPException
 from sqlalchemy.sql import select, insert, delete
 from psycopg2.errors import UniqueViolation
 
-from src.models.database import database
-from src.models.notes import Notes
-from src.models.users import Users
+# from src.models.database import database
+# from src.models.notes import Notes
+# from src.models.users import Users
 from src.schemas.notes import NoteInSchema, NotesOutSchema
 from src.schemas.base import Status
 
 
 async def get_note_list(author_id: int):
+    return #pass
     query = select(Notes).filter_by(author_id=author_id).order_by(Notes.id.desc())
     rows = await database.fetch_all(query)
     # TODO: add author
@@ -19,6 +20,7 @@ async def get_note_list(author_id: int):
 
 
 async def get_note(note_id: int):
+    return #pass
     note_obj = None
     query = select(Notes, Users).join(Users).where(Notes.id == note_id)
 
@@ -27,6 +29,7 @@ async def get_note(note_id: int):
 
     try:
         note_obj = await database.fetch_one(query)
+        note = Notes(note_obj)
     except Exception as e:
         print(e)
 
@@ -37,6 +40,7 @@ async def get_note(note_id: int):
 
 
 async def add_note(author_id: int, note: NoteInSchema) -> NotesOutSchema:
+    return #pass
     note_dict = note.dict(exclude_none=True)
     note_dict["author_id"] = author_id
     query = insert(Notes).values(note_dict).returning(Notes)
@@ -49,6 +53,7 @@ async def add_note(author_id: int, note: NoteInSchema) -> NotesOutSchema:
 
 
 async def delete_note(note_id: int):
+    return #pass
     query = delete(Notes).where(Notes.id == note_id)
     try:
         await database.execute(query)

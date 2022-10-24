@@ -7,6 +7,10 @@ from fastapi.exceptions import HTTPException
 from fastapi.security import OAuth2PasswordRequestForm
 from fastapi.responses import JSONResponse
 
+from sqlalchemy.orm import Session
+
+from src.models.database import db_session
+
 import src.services.users as users_services
 from src.schemas.users import UserInSchema, UserOutSchema, UserDatabaseSchema
 from src.schemas.base import Status, LogginSchema
@@ -25,17 +29,18 @@ router = APIRouter()
     response_model=UserOutSchema,
     description="Регистрация нового пользователя",
 )
-async def create_user(user: UserInSchema) -> UserOutSchema:
-    return await users_services.create_user(user)
+def create_user(
+    user: UserInSchema, db_session: Session = Depends(db_session)
+) -> UserOutSchema:
+    return users_services.create_user(user, db_session)
 
 
-@router.post(
-    "/login",
-    description="Логин",
-    response_model=LogginSchema
-)
-async def login_user(user: OAuth2PasswordRequestForm = Depends()):
-    user = await validate_user(user)
+@router.post("/login", description="Логин", response_model=LogginSchema)
+def login_user(
+    user: OAuth2PasswordRequestForm = Depends(),
+    db_session: Session = Depends(db_session),
+):
+    user = validate_user(user, db_session)
 
     if not user:
         raise HTTPException(
@@ -64,7 +69,7 @@ async def login_user(user: OAuth2PasswordRequestForm = Depends()):
     response_model=UserOutSchema,
     description="Получение информации о текущем пользователе",
 )
-async def user_info(current_user: UserOutSchema = Depends(get_current_user)):
+def user_info(current_user: UserOutSchema = Depends(get_current_user)):
     return current_user
 
 
@@ -72,7 +77,9 @@ async def user_info(current_user: UserOutSchema = Depends(get_current_user)):
     "/delete/{user_id}",
     response_model=Status,
 )
-async def user_delete(
-    user_id: int, current_user: UserDatabaseSchema = Depends(get_current_user)
+def user_delete(
+    user_id: int,
+    current_user: UserDatabaseSchema = Depends(get_current_user),
+    db_session: Session = Depends(db_session),
 ) -> Status:
-    return await users_services.delete_user(user_id, current_user)
+    return users_services.delete_user(user_id, current_user, db_session)

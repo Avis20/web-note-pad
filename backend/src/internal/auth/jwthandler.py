@@ -13,6 +13,9 @@ from fastapi.security import OAuth2
 from fastapi.security.utils import get_authorization_scheme_param
 from fastapi.openapi.models import OAuthFlow as OAuthFlowsModel
 from jose import JWTError, jwt
+from src.models.database import db_session
+
+from sqlalchemy.orm import Session
 
 from src.services.users import get_user
 from src.schemas.token import TokenData
@@ -78,7 +81,7 @@ def create_access_token(data: dict, expires_delta: Optional[timedelta] = None):
     return encoded_jwt
 
 
-async def get_current_user(token: str = Depends(security)) -> UserDatabaseSchema:
+def get_current_user(token: str = Depends(security), db_session: Session = Depends(db_session)) -> UserDatabaseSchema:
     print(f"\nInput JWT TOKEN = {token}\n")
     auth_except = HTTPException(
         status_code=401,
@@ -96,5 +99,5 @@ async def get_current_user(token: str = Depends(security)) -> UserDatabaseSchema
         print(e)
         raise auth_except
 
-    db_user = await get_user(username=username)
+    db_user = get_user(username=username, db_session=db_session)
     return db_user
