@@ -8,10 +8,10 @@ import sqlalchemy as sa
 from sqlalchemy import func
 from sqlalchemy.orm import relationship
 
-from src.models.base import BaseModel
+from src.models.database import Base
 
 
-class Users(BaseModel):
+class Users(Base):
 
     __tablename__ = "users"
 
@@ -29,4 +29,4 @@ class Users(BaseModel):
         server_onupdate=func.now(),
     )
 
-    # notes = relationship("Notes", back_populates="author")
+    notes = relationship("Notes", back_populates="author")

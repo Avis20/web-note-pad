@@ -13,20 +13,20 @@ const getters = {
 
 const actions = {
     async note_add({dispatch}, note) {
-        await axios.post('/v1/note/add', note);
+        await axios.post('/api/v1/note/add', note);
         await dispatch('note_list');
     },
     async note_list({commit}) {
-        let {data} = await axios.get('/v1/note/list')
+        let {data} = await axios.get('/api/v1/note/list')
         commit('setNotes', data)
     },
     async note_get({commit}, id) {
-        let {data} = await axios.get(`/v1/note/get/${id}`)
+        let {data} = await axios.get(`/api/v1/note/get/${id}`)
         commit('setNote', data)
     },
     // eslint-disable-next-line no-empty-pattern
     async note_delete({}, id) {
-        await axios.delete(`/v1/note/delete/${id}`)
+        await axios.delete(`/api/v1/note/delete/${id}`)
     }
 }
 

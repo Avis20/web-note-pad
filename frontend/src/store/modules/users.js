@@ -13,7 +13,7 @@ const getters = {
 
 const actions = {
     async register({dispatch}, form) {
-        await axios.post('/v1/user/register', form);
+        await axios.post('/api/v1/user/register', form);
         let UserForm = new FormData();
         UserForm.append('username', form.username)
         UserForm.append('password', form.password)
@@ -21,11 +21,11 @@ const actions = {
     },
     async login({dispatch}, user) {
         console.log('user', user);
-        await axios.post('/v1/user/login', user);
+        await axios.post('/api/v1/user/login', user);
         await dispatch('user_info');
     },
     async user_info({commit}) {
-        let {data} = await axios.get('/v1/user/info')
+        let {data} = await axios.get('/api/v1/user/info')
         console.log(data);
         await commit('SetUser', data)
     },
@@ -36,7 +36,7 @@ const actions = {
     // eslint-disable-next-line no-empty-pattern
     async delete_user({}, id) {
         console.log('id', id);
-        await axios.delete(`/v1/user/delete/${id}`)
+        await axios.delete(`/api/v1/user/delete/${id}`)
     }
 }
 

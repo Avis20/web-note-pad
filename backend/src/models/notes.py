@@ -6,30 +6,22 @@
 
 import sqlalchemy as sa
 from sqlalchemy.orm import relationship
-from src.models.database import BaseModel
+from src.models.database import Base
 
 
-class Notes(BaseModel):
+class Notes(Base):
 
     __tablename__ = "notes"
 
-    id = sa.Column(
-        sa.Integer,
-        primary_key=True,
-        comment="ID Заметки")
-    title = sa.Column(
-        sa.String(256),
-        nullable=False,
-        comment="Заголовок заметки")
-    content = sa.Column(
-        sa.Text,
-        nullable=True,
-        comment="Содержание заметки")
+    id = sa.Column(sa.Integer, primary_key=True, comment="ID Заметки")
+    title = sa.Column(sa.String(256), nullable=False, comment="Заголовок заметки")
+    content = sa.Column(sa.Text, nullable=True, comment="Содержание заметки")
 
     author_id = sa.Column(
         sa.Integer,
         sa.ForeignKey("users.id"),
         nullable=False,
-        comment="ID автора заметки")
+        comment="ID автора заметки",
+    )
 
     author = relationship("Users", back_populates="notes")
