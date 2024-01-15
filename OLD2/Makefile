@@ -15,7 +15,7 @@ build: ## Build images
 up: ## Up all services locally with docker-compose
 	ln -f env/docker.env .docker.env
 	ln -f env/local.env .env
-	docker-compose up
+	docker-compose up --build --no-log-prefix
 
 .PHONY: down
 down: ## Down all services locally with docker-compose as daemon
