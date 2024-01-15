@@ -1,0 +1,17 @@
+[tool.poetry]
+name = "web-note-pad"
+version = "0.1.0"
+description = ""
+authors = ["Орлов Ярослав <y.orlov@fonmix.ru>"]
+readme = "README.md"
+packages = [{include = "web_note_pad"}]
+
+[tool.poetry.dependencies]
+python = "^3.10"
+fastapi = "^0.109.0"
+uvicorn = "^0.25.0"
+
+
+[build-system]
+requires = ["poetry-core"]
+build-backend = "poetry.core.masonry.api"

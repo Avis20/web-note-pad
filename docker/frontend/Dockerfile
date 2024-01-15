@@ -2,7 +2,7 @@ FROM node:lts-alpine
 
 WORKDIR /data/
 
-COPY package.json /data/
+COPY ./src/frontend/package.json /data/
 
 RUN npm install
 ENV PATH /data/node_modules/.bin:$PATH
