@@ -1,1 +1,0 @@
-{"buildTargets":["black","build","down","help","init_db","lint","make","rev","run_tests","truncate_db","uninstall","up"],"launchTargets":[],"customConfigurationProvider":{"workspaceBrowse":{"browsePath":[],"compilerArgs":[]},"fileIndex":[]}}
