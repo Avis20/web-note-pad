@@ -1,0 +1,12 @@
+[flake8]
+max-line-length = 120
+
+per-file-ignores =
+    */__init__.py:
+        # imported but unused
+        F401
+        # unable to detect undefined names
+        F403
+
+exclude =
+    */migrations/*

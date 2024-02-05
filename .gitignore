@@ -5,3 +5,7 @@ poetry.lock
 **__pycache__/
 **node_modules/
 **.vscode
+**.mypy_cache
+
+.env
+.env.local
