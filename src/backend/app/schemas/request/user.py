@@ -23,3 +23,6 @@ class UserChangePasswordSchema(BaseModel):
 class UserLoginSchema(BaseModel):
     username: str
     password: str
+
+    def safe_data(self) -> dict:
+        return self.model_dump(exclude={"password"})

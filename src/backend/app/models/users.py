@@ -9,7 +9,7 @@ class User(BaseModel, IdMixin, TsMixinCreated, TsMixinUpdated):
 
     __table_args__ = (PrimaryKeyConstraint("id", name="user_pkey"),)
 
-    username: Mapped[str] = Column(String(127), nullable=False)
-    full_name: Mapped[str] = Column(String(127), nullable=True)
+    username: Mapped[str] = Column(String(127), nullable=False, unique=True, init=False)
+    full_name: Mapped[str] = Column(String(127), nullable=True, init=False)
 
-    password: Mapped[str] = Column(String(127), nullable=False)
+    password: Mapped[str] = Column(String(127), nullable=False, init=False)

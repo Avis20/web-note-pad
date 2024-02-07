@@ -1,8 +1,8 @@
 from typing import Annotated
-
-from app.dependencies import UserUoWDep
-from app.services.user import UserService
 from fastapi import Depends
+
+from app.services.user import UserService
+from app.dependencies import UserUoWDep
 
 
 def create_user_service(user_uow: UserUoWDep):

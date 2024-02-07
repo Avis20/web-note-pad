@@ -21,7 +21,8 @@ down: ## down services
 
 .PHONY: build
 build: ## build services
-	@docker-compose $(ENV_FILE) $(BASE_DOCKER_COMPOSES) build
+# make build service=web_notepad_backend
+	@docker-compose $(ENV_FILE) $(BASE_DOCKER_COMPOSES) build $(service)
 
 .PHONY: restart
 restart: down up ## restart services

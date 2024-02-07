@@ -10,10 +10,6 @@ packages = [{include = "web_note_pad"}]
 line-length = 120
 skip-string-normalization = true
 
-[tool.isort]
-profile = "black"
-src_paths = ["src/app"]
-
 [tool.poetry.dependencies]
 python = "^3.10"
 fastapi = "^0.109.0"
@@ -24,6 +20,8 @@ pydantic = "^2.5.3"
 pydantic-settings = "^2.1.0"
 psycopg = {extras = ["binary"], version = "^3.1.17"}
 orjson = "^3.9.12"
+passlib = "^1.7.4"
+rich = "^13.7.0"
 
 
 [tool.poetry.group.dev.dependencies]
@@ -37,7 +35,6 @@ flake8-broken-line = "^1.0.0"
 flake8-bugbear = "^24.1.17"
 flake8-commas = "^2.1.0"
 pre-commit = "^3.6.0"
-isort = "^5.13.2"
 
 [build-system]
 requires = ["poetry-core"]

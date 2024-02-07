@@ -1,11 +1,13 @@
 from sqlalchemy import ForeignKey, MetaData
-from sqlalchemy.orm import declarative_base, mapped_column
+from sqlalchemy.orm import DeclarativeBase, MappedAsDataclass, mapped_column
 
 Column = mapped_column
 
 metadata = MetaData()
 
-BaseModel = declarative_base(metadata=metadata)
+
+class BaseModel(DeclarativeBase, MappedAsDataclass):
+    pass
 
 
 class RestrictForeignKey(ForeignKey):

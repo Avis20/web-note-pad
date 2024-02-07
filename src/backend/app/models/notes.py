@@ -15,11 +15,12 @@ class Note(BaseModel, IdMixin, TsMixinCreated, TsMixinUpdated):
 
     __table_args__ = (PrimaryKeyConstraint("id", name="note_pkey"),)
 
-    content: Mapped[str] = Column(Text, nullable=True)
+    content: Mapped[str] = Column(Text, nullable=True, init=False)
     author_id: Mapped[uuid.UUID] = Column(
         UUID(as_uuid=True),
         RestrictForeignKey(User.id),
         nullable=False,
+        init=False,
     )
 
-    author: Mapped[User] = relationship("User", lazy="noload")
+    author: Mapped[User] = relationship("User", lazy="noload", init=False)

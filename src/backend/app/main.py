@@ -1,4 +1,5 @@
 from logging import config as logging_config
+from app.exceptions.main import setup_error_handlers
 
 from app.logger import LOGGING
 from app.routers.main import setup_routers
@@ -21,6 +22,7 @@ def create_app(settings: Settings):
     setup_routers(app)
     # setup_middleware(app)
     # setup_telemetry(app, settings)
+    setup_error_handlers(app)
     return app
 
 
