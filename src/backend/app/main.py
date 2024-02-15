@@ -11,6 +11,7 @@ from fastapi.responses import ORJSONResponse
 def create_app(settings: Settings):
     app = FastAPI(
         title=settings.project.name,
+        debug=settings.project.debug,
         docs_url="/docs",
         openapi_url="/api/openapi.json",
         default_response_class=ORJSONResponse,

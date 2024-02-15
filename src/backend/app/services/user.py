@@ -15,7 +15,7 @@ class UserService:
         """Валидация пароля."""
         return self.pwd_context.verify(plan_password, hashed_password)
 
-    async def user_login(self, login_data: UserLoginSchema):
+    async def user_login(self, login_data: UserLoginSchema) -> UserDTO:
         """
         Авторизация пользователя в системе
 
@@ -30,6 +30,8 @@ class UserService:
 
             if not self._verify_password(login_data.password, user_dto.password):
                 raise UserException.UserForbiddenException("Wrong password")
+
+            return user_dto
 
     async def create_user(self, user_data: UserRegistrationSchema) -> UserDTO | None:
         """
