@@ -5,7 +5,7 @@ from uuid import UUID, uuid4
 import jwt
 
 from app.constants.auth import EXPIRE_ACCESS_TOKEN
-from app.dto.auth import TokenDTO
+from app.dto.auth import AuthDataDTO, TokenDTO
 from app.exceptions.auth import AuthException
 
 
@@ -18,16 +18,32 @@ class AuthService:
     def __init__(self, jwt_secret_key: str):
         self._jwt_secret_key = jwt_secret_key
 
+    async def extract_auth_data(self, access_token: str) -> AuthDataDTO:
+        """Валидация access токена."""
+        try:
+            payload: dict = jwt.decode(access_token, self._jwt_secret_key, algorithms=[self._encode_algorithm])
+        except (
+            jwt.DecodeError,
+            jwt.InvalidKeyError,
+            jwt.InvalidIssuerError,
+            jwt.InvalidSignatureError,
+        ):
+            raise AuthException.TokenDecodeException(f"Can't decode jwt token! See {access_token}")
+        except jwt.exceptions.ExpiredSignatureError as error:
+            raise AuthException.TokenExpiredException(f"Token is expired! error = {error}")
+
+        logger.info(">>> Payload %s", payload)
+        return AuthDataDTO(user_id=payload.get("sub", None))
+
     async def create_access_token(self, user_id: UUID) -> str:
         """Генерация access токена."""
 
         access_expire = (datetime.now() + timedelta(seconds=EXPIRE_ACCESS_TOKEN)).timestamp()
 
         payload = {
-            'sub': 'authentication',
+            'sub': str(user_id),
             'exp': int(access_expire),
             'iat': int(datetime.utcnow().timestamp()),
-            'user_id': str(user_id),
         }
 
         try:
@@ -41,6 +57,8 @@ class AuthService:
     async def create_token_pair(self, user_id: UUID) -> TokenDTO:
         access_token = await self.create_access_token(user_id)
         refresh_token = uuid4()
+
+        # TODO: save from redis
 
         return TokenDTO(
             access_token=access_token,

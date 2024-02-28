@@ -1,9 +1,14 @@
+import logging
+from uuid import UUID
 from passlib.context import CryptContext
 
 from app.dto.user import UserCreateDTO, UserDTO
 from app.exceptions.user import UserException
 from app.schemas.request.user import UserLoginSchema, UserRegistrationSchema
 from app.uow.user import IUserUoW
+
+
+logger = logging.getLogger(__name__)
 
 
 class UserService:
@@ -14,6 +19,33 @@ class UserService:
     def _verify_password(self, plan_password: str, hashed_password: str) -> bool:
         """Валидация пароля."""
         return self.pwd_context.verify(plan_password, hashed_password)
+
+    async def delete_user(self, user_id: UUID) -> UserDTO:
+        """
+        Удаление данных о пользователе
+
+        Raises:
+            UserException.UserNotFoundException
+        """
+        async with self.user_uow:
+            user_dto = await self.user_uow.user_repo.delete_user_by_id(user_id=user_id)
+            if not user_dto:
+                raise UserException.UserNotFoundException(f"User with '{user_id}' not found")
+            logger.debug(f"User '{user_dto}' was deleted!")
+            return user_dto
+
+    async def get_user_by_id(self, user_id: UUID) -> UserDTO:
+        """
+        Получение данных о пользователе
+        Raises:
+            UserException.UserNotFoundException
+        """
+        async with self.user_uow:
+            user_dto = await self.user_uow.user_repo.get_user_by_id(user_id=user_id)
+            if not user_dto:
+                raise UserException.UserNotFoundException(f"User with '{user_id}' not found")
+            logger.debug(f"Get user by id '{user_id}'='{user_dto}'")
+            return user_dto
 
     async def user_login(self, login_data: UserLoginSchema) -> UserDTO:
         """
@@ -28,6 +60,7 @@ class UserService:
             if not user_dto:
                 raise UserException.UserNotFoundException(f'User with {login_data.username} not found')
 
+            logger.debug(f"Get user by user name '{login_data.username}'='{user_dto.safe_data()}'")
             if not self._verify_password(login_data.password, user_dto.password):
                 raise UserException.UserForbiddenException("Wrong password")
 

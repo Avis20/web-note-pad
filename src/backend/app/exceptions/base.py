@@ -16,11 +16,11 @@ class BaseExceptionInfo(ExceptionEnum):
     BASE_AUTH_ERROR = "1000", "Unauthorized"
     BASE_CLIENT_ERROR = "2000", "Something went wrong ..."
     BASE_FORBIDDEN_ERROR = "3000", "Forbidden!"
+    BASE_NOT_FOUND_ERROR = "4000", "Not Found!"
+    BASE_CONFLICT_ERROR = "5000", "Conflict!"
 
 
 class BaseAppException(Exception):
-    """Base Exception"""
-
     code: str = BaseExceptionInfo.BASE_ERROR.code
     error: str = BaseExceptionInfo.BASE_ERROR.error
     detail: str | None = None
@@ -31,7 +31,20 @@ class BaseAppException(Exception):
 
 
 class BaseAuthException(BaseAppException):
-    """Base Token Exception"""
-
     code: str = BaseExceptionInfo.BASE_AUTH_ERROR.code
     error: str = BaseExceptionInfo.BASE_AUTH_ERROR.error
+
+
+class BaseForbiddenException(BaseAppException):
+    code: str = BaseExceptionInfo.BASE_FORBIDDEN_ERROR.code
+    error: str = BaseExceptionInfo.BASE_FORBIDDEN_ERROR.error
+
+
+class BaseNotFoundException(BaseAppException):
+    code: str = BaseExceptionInfo.BASE_NOT_FOUND_ERROR.code
+    error: str = BaseExceptionInfo.BASE_NOT_FOUND_ERROR.error
+
+
+class BaseConflictException(BaseAppException):
+    code: str = BaseExceptionInfo.BASE_CONFLICT_ERROR.code
+    error: str = BaseExceptionInfo.BASE_CONFLICT_ERROR.error

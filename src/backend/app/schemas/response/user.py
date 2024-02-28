@@ -3,10 +3,16 @@ from uuid import UUID
 
 from pydantic import BaseModel
 
+from app.schemas.response.base import ResponseSchema
 
-class UserResponseSchema(BaseModel):
+
+class UserItemResponseSchema(BaseModel):
     id: UUID
     username: str
     full_name: str | None = None
     created_at: datetime
     updated_at: datetime
+
+
+class UserResponseSchema(ResponseSchema):
+    item: UserItemResponseSchema

@@ -20,3 +20,6 @@ class UserDTO(DTO):
     created_at: datetime
     updated_at: datetime
     full_name: str | None = None
+
+    def safe_data(self) -> dict:
+        return self.as_dict(exclude=["password"])

@@ -1,6 +1,12 @@
-from app.exceptions.base import BaseAppException
+from app.exceptions.base import BaseAuthException
 
 
-class AuthException(BaseAppException):
-    class TokenEncodeException(BaseAppException):
+class AuthException(BaseAuthException):
+    class TokenEncodeException(BaseAuthException):
+        pass
+
+    class TokenDecodeException(BaseAuthException):
+        pass
+
+    class TokenExpiredException(BaseAuthException):
         pass

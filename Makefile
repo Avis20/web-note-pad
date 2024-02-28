@@ -5,8 +5,6 @@ ENV_FILE = --env-file ./.docker.env
 create_network:
 	@docker network create web-notepad-network 2>/dev/null || echo "web-notepad-network is up-to-date"
 
-
-# prod start
 .PHONY: up
 up: create_network ## up services
 	@docker-compose $(ENV_FILE) $(BASE_DOCKER_COMPOSES) up -d
@@ -30,4 +28,7 @@ restart: down up ## restart services
 .PHONY: uninstall
 uninstall: ## uninstall all services
 	@docker-compose $(ENV_FILE) $(BASE_DOCKER_COMPOSES) down --remove-orphans --volumes
-# prod end
+
+.PHONY: lint
+lint: ## run linters
+	cd src/backend && poetry run pre-commit run --all-files

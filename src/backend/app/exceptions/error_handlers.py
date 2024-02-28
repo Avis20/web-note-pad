@@ -5,7 +5,6 @@ from fastapi.encoders import jsonable_encoder
 from fastapi.responses import JSONResponse
 
 from app.exceptions import base as app_exceptions
-from app.exceptions import user as user_exceptions
 
 logger = logging.getLogger(__name__)
 
@@ -20,10 +19,12 @@ async def application_exception_handler(request: Request, exc: app_exceptions.Ba
 
     if isinstance(exc, app_exceptions.BaseAuthException):
         status_code = status.HTTP_401_UNAUTHORIZED
-    elif isinstance(exc, user_exceptions.UserException.UserExistsException):
-        status_code = status.HTTP_409_CONFLICT
-    elif isinstance(exc, user_exceptions.UserException.UserForbiddenException):
+    elif isinstance(exc, app_exceptions.BaseForbiddenException):
         status_code = status.HTTP_403_FORBIDDEN
+    elif isinstance(exc, app_exceptions.BaseNotFoundException):
+        status_code = status.HTTP_404_NOT_FOUND
+    elif isinstance(exc, app_exceptions.BaseConflictException):
+        status_code = status.HTTP_409_CONFLICT
 
     logger.exception(exc, exc_info=exc)
 

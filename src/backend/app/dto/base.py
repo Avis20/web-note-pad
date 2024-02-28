@@ -1,4 +1,4 @@
-from typing import Any, ClassVar, Protocol, Dict
+from typing import Any, ClassVar, Protocol, Dict, Sequence
 
 from dataclasses import dataclass, asdict, fields
 
@@ -9,9 +9,18 @@ class DataClass(Protocol):
 
 @dataclass
 class DTO:
-    def as_dict(self, exclude_none: bool = False) -> dict:
+    def as_dict(self, exclude: Sequence | None, exclude_none: bool = False) -> dict:
+        def exclude_none_factory(field):
+            return {key: value for (key, value) in field if value is not None}
+
+        def exclude_factory(field):
+            return {key: value for (key, value) in field if key not in exclude}  # type: ignore
+
         if exclude_none:
-            return asdict(self, dict_factory=lambda field: {key: value for (key, value) in field if value is not None})
+            return asdict(self, dict_factory=exclude_none_factory)
+        if exclude:
+            return asdict(self, dict_factory=exclude_factory)
+
         return asdict(self)
 
     @classmethod
