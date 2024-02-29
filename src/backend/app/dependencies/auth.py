@@ -7,7 +7,7 @@ from fastapi.security.utils import get_authorization_scheme_param
 
 from app.dependencies import AuthServiceDep, UserServiceDep
 from app.dto.auth import AuthDataDTO
-from app.dto.user import UserDTO
+from app.dto.users import UserDTO
 from app.exceptions.auth import AuthException
 
 api_key_header = APIKeyHeader(name="Authorization", auto_error=False)

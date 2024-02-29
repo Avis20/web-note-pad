@@ -1,4 +1,6 @@
 from .clients.db_session import SessionMakerDep
 from .uow_dependencies.user_uow_factory import UserUoWDep
+from .uow_dependencies.note_uow_factory import NoteUoWDep
 from .service_dependencies.user_services_factory import UserServiceDep
+from .service_dependencies.note_services_factory import NoteServiceDep
 from .service_dependencies.auth_service_factory import AuthServiceDep

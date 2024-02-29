@@ -2,7 +2,7 @@ from typing import Annotated
 from fastapi import Depends
 
 from app.dependencies.clients.db_session import SessionMakerDep
-from app.uow.user import IUserUoW, UserUoW
+from app.uow.users import IUserUoW, UserUoW
 
 
 def create_user_uow(session_maker: SessionMakerDep):

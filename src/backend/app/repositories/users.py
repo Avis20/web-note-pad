@@ -3,8 +3,8 @@ from uuid import UUID
 from sqlalchemy import insert, select, delete
 from sqlalchemy.exc import IntegrityError
 
-from app.dto.user import UserCreateDTO, UserDTO
-from app.exceptions.user import UserException
+from app.dto.users import UserCreateDTO, UserDTO
+from app.exceptions.users import UserException
 from app.repositories.base import SQLAlchemyRepository
 from app.models.users import User
 

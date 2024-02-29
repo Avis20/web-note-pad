@@ -9,7 +9,7 @@ class DataClass(Protocol):
 
 @dataclass
 class DTO:
-    def as_dict(self, exclude: Sequence | None, exclude_none: bool = False) -> dict:
+    def as_dict(self, exclude: Sequence | None = None, exclude_none: bool = False) -> dict:
         def exclude_none_factory(field):
             return {key: value for (key, value) in field if value is not None}
 
@@ -38,3 +38,14 @@ class DTO:
                 filtered_fields[key] = value
 
         return cls(**filtered_fields)
+
+
+@dataclass
+class PaginationBaseDTO(DTO):
+    page: int = 1
+    limit: int | None = None
+    all: int | None = None
+    offset: int | None = 0
+
+    def __post_init__(self):
+        self.offset = self.limit * (self.page - 1) if self.limit else self.page

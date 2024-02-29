@@ -1,7 +1,7 @@
 from typing import Annotated
 from fastapi import Depends
 
-from app.services.user import UserService
+from app.services.users import UserService
 from app.dependencies import UserUoWDep
 
 

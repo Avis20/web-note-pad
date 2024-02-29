@@ -4,11 +4,11 @@ from fastapi import APIRouter, Depends, status
 
 from app.dependencies import UserServiceDep, AuthServiceDep
 from app.dependencies.auth import get_current_user
-from app.dto.user import UserDTO
-from app.schemas.request.user import UserLoginSchema, UserRegistrationSchema
+from app.dto.users import UserDTO
+from app.schemas.request.users import UserLoginSchema, UserRegistrationSchema
 from app.schemas.response.auth import TokenResponseSchema
 from app.schemas.response.base import ResponseSchema
-from app.schemas.response.user import UserResponseSchema
+from app.schemas.response.users import UserResponseSchema
 
 router = APIRouter(prefix="/user")
 
@@ -56,9 +56,9 @@ async def _login(
     response_model=UserResponseSchema,
 )
 async def _user_get(
-    user: Annotated[UserDTO, Depends(get_current_user)],
+    user_dto: Annotated[UserDTO, Depends(get_current_user)],
 ):
-    return {"success": 1, "item": user}
+    return {"success": 1, "item": user_dto}
 
 
 @router.delete(
@@ -68,8 +68,8 @@ async def _user_get(
     response_model=ResponseSchema,
 )
 async def _user_delete(
-    user: Annotated[UserDTO, Depends(get_current_user)],
+    user_dto: Annotated[UserDTO, Depends(get_current_user)],
     user_service: UserServiceDep,
 ):
-    await user_service.delete_user(user_id=user.id)
+    await user_service.delete_user(user_id=user_dto.id)
     return {"success": 1}

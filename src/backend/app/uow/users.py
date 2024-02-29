@@ -1,6 +1,6 @@
 from __future__ import annotations
 
-from app.repositories.user import IUserRepository, UserRepository
+from app.repositories.users import IUserRepository, UserRepository
 from app.uow.base import SQLAlchemyUoW, UnitOfWorkABC
 
 

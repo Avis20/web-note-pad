@@ -2,10 +2,10 @@ import logging
 from uuid import UUID
 from passlib.context import CryptContext
 
-from app.dto.user import UserCreateDTO, UserDTO
-from app.exceptions.user import UserException
-from app.schemas.request.user import UserLoginSchema, UserRegistrationSchema
-from app.uow.user import IUserUoW
+from app.dto.users import UserCreateDTO, UserDTO
+from app.exceptions.users import UserException
+from app.schemas.request.users import UserLoginSchema, UserRegistrationSchema
+from app.uow.users import IUserUoW
 
 
 logger = logging.getLogger(__name__)
