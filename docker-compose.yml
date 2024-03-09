@@ -36,6 +36,8 @@ services:
       context: .
       dockerfile: docker/backend/Dockerfile
     env_file: .docker.env
+    volumes:
+      - ./src/backend/migrations:/opt/migrations
     command: poetry run alembic upgrade head
     # command: sleep infinity
     depends_on:

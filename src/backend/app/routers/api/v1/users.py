@@ -1,6 +1,8 @@
 import logging
 from typing import Annotated
 from fastapi import APIRouter, Depends, status
+from fastapi.responses import JSONResponse
+from app.constants.auth import EXPIRE_ACCESS_TOKEN
 
 from app.dependencies import UserServiceDep, AuthServiceDep
 from app.dependencies.auth import get_current_user
@@ -45,8 +47,16 @@ async def _login(
     logger.debug(f"Login: {request_user.safe_data()}")
     user = await user_service.user_login(request_user)
     tokens = await auth_service.create_token_pair(user_id=user.id)
-    # TODO: set_cookie
-    return {"success": 1, "item": tokens, "params": request_user.safe_data()}
+    response = JSONResponse({"success": 1, "item": tokens.as_dict(), "params": request_user.safe_data()})
+    response.set_cookie(
+        "Authorization",
+        value=f"Bearer {tokens.access_token}",
+        httponly=True,
+        max_age=1800,
+        expires=EXPIRE_ACCESS_TOKEN,
+        secure=False,
+    )
+    return response
 
 
 @router.get(

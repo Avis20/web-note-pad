@@ -18,7 +18,7 @@ class INoteRepository(ABC):
         raise NotImplementedError
 
     @abstractmethod
-    async def update_note_by_user(self, note_update_dto: NoteUpdateDTO) -> NoteDTO | None:
+    async def update_note_by_user(self, note_id: UUID, user_id: UUID, note_update_dto: NoteUpdateDTO) -> NoteDTO | None:
         raise NotImplementedError
 
     @abstractmethod
@@ -31,11 +31,12 @@ class INoteRepository(ABC):
 
 
 class NoteRepository(INoteRepository, SQLAlchemyRepository):
-    async def update_note_by_user(self, note_update_dto: NoteUpdateDTO) -> NoteDTO | None:
-        note_dto = await self.get_note_by_user(note_id=note_update_dto.id, user_id=note_update_dto.author_id)
+    async def update_note_by_user(self, note_id: UUID, user_id: UUID, note_update_dto: NoteUpdateDTO) -> NoteDTO | None:
+        note_dto = await self.get_note_by_user(note_id=note_id, user_id=user_id)
         if not note_dto:
             return None
-        data = note_update_dto.as_dict(exclude=['id', 'author_id'])
+
+        data = note_update_dto.as_dict(exclude_none=True)
         stmt = update(Note).values(data).returning(Note)
         result = await self._session.execute(stmt)
         if note := result.scalar():

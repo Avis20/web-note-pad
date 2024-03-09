@@ -18,6 +18,7 @@ class NoteService:
         Raises:
         """
         note_create_dto = NoteCreateDTO(
+            title=note_request.title,
             content=note_request.content,
             author_id=user_dto.id,
         )
@@ -46,12 +47,15 @@ class NoteService:
             NoteException.NoteNotFoundException
         """
         note_update_dto = NoteUpdateDTO(
-            id=note_id,
+            title=request_note.title,
             content=request_note.content,
-            author_id=user_dto.id,
         )
         async with self.note_uow:
-            note_dto = await self.note_uow.note_repo.update_note_by_user(note_update_dto)
+            note_dto = await self.note_uow.note_repo.update_note_by_user(
+                note_id=note_id,
+                user_id=user_dto.id,
+                note_update_dto=note_update_dto,
+            )
             if not note_dto:
                 raise NoteException.NoteNotFoundException(f"Note with id = '{note_id}' not found")
             return note_dto

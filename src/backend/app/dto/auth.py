@@ -7,7 +7,7 @@ from app.dto.base import DTO
 @dataclass
 class TokenDTO(DTO):
     access_token: str
-    refresh_token: UUID
+    refresh_token: str
 
 
 @dataclass

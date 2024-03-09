@@ -56,7 +56,7 @@ class AuthService:
 
     async def create_token_pair(self, user_id: UUID) -> TokenDTO:
         access_token = await self.create_access_token(user_id)
-        refresh_token = uuid4()
+        refresh_token = str(uuid4())
 
         # TODO: save from redis
 

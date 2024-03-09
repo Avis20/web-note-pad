@@ -2,6 +2,7 @@ from logging import config as logging_config
 from app.exceptions.main import setup_error_handlers
 
 from app.logger import LOGGING
+from app.middleware.base import setup_middleware
 from app.routers.main import setup_routers
 from app.settings import Settings
 from fastapi import FastAPI
@@ -21,7 +22,7 @@ def create_app(settings: Settings):
     # setup_dependencies(app)
     # setup_providers(app, settings)
     setup_routers(app)
-    # setup_middleware(app)
+    setup_middleware(app)
     # setup_telemetry(app, settings)
     setup_error_handlers(app)
     return app

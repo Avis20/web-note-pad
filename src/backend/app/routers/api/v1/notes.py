@@ -78,7 +78,7 @@ async def _delete_note(
     return {"success": 1}
 
 
-@router.get(
+@router.post(
     '/list',
     summary="Список заметок",
     description="Получение списка заметок",

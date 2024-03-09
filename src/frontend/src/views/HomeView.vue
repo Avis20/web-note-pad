@@ -1,18 +1,28 @@
+<!-- ./frontend/src/views/Home.vue --> 
+
 <template>
-  <div class="home">
-    <img alt="Vue logo" src="../assets/logo.png">
-    <HelloWorld msg="Welcome to Your Vue.js App"/>
-  </div>
+  <section>
+    <div v-if="isLoggedIn" id="logout">
+      <p id="logout"><a href="/dashboard">Нажмите</a> чтобы увидеть все заметки</p>
+    </div>
+    <p v-else>
+      <span><a href="/login">Войти</a><hr></span>
+      <span>Не получается войти?<hr></span>
+      <span><a href="/register">Зарегистрироваться</a></span>
+    </p>
+  </section>
 </template>
 
 <script>
-// @ is an alias to /src
-import HelloWorld from '@/components/HelloWorld.vue'
 
 export default {
-  name: 'HomeView',
-  components: {
-    HelloWorld
+  name: "HomeVue",
+  computed: {
+    isLoggedIn: function() {
+      console.log('isAuth', this.$store.getters.isAuth);
+      return this.$store.getters.isAuth;
+    }
   }
 }
+
 </script>

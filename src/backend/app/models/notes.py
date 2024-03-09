@@ -15,6 +15,7 @@ class Note(BaseModel, IdMixin, TsMixinCreated, TsMixinUpdated):
 
     __table_args__ = (PrimaryKeyConstraint("id", name="note_pkey"),)
 
+    title: Mapped[str] = Column(Text, nullable=False, init=False)
     content: Mapped[str] = Column(Text, nullable=True, init=False)
     author_id: Mapped[uuid.UUID] = Column(
         UUID(as_uuid=True),

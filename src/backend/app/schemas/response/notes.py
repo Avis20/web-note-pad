@@ -8,7 +8,8 @@ from app.schemas.response.base import ResponseSchema
 
 class NoteItemResponseSchema(BaseModel):
     id: UUID
-    content: str
+    title: str
+    content: str | None
     author_id: UUID
     created_at: datetime
     updated_at: datetime

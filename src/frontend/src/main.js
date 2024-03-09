@@ -1,10 +1,12 @@
+// ./frontend/src/main.js
+
 import 'bootstrap/dist/css/bootstrap.css';
 import axios from 'axios'
 import Vue from 'vue'
 
 import App from './App.vue'
 import router from './router'
-// import store from './store'
+import store from './store'
 
 axios.defaults.withCredentials = true;
 // Укажем хост до backend-а
@@ -13,6 +15,6 @@ Vue.config.productionTip = false;
 
 new Vue({
   router,
-  // store,
+  store,
   render: h => h(App)
 }).$mount('#app')
