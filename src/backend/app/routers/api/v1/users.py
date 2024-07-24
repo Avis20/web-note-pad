@@ -10,9 +10,9 @@ from app.dto.users import UserDTO
 from app.schemas.request.users import UserLoginSchema, UserRegistrationSchema
 from app.schemas.response.auth import TokenResponseSchema
 from app.schemas.response.base import ResponseSchema
-from app.schemas.response.users import UserResponseSchema
+from app.schemas.response.users import UserItemResponseSchema, UserResponseSchema
 
-router = APIRouter(prefix="/user")
+router = APIRouter(prefix="/user", tags=["User"])
 
 logger = logging.getLogger()
 
@@ -30,7 +30,12 @@ async def _registration(
 ):
     logger.debug(f"Registration: {request_user.safe_data()}")
     user = await user_service.create_user(request_user)
-    return {"success": 1, "item": user, "params": request_user.safe_data()}
+    if user:
+        return UserResponseSchema(
+            success=1,
+            item=UserItemResponseSchema(**user.as_dict()),
+            params=request_user.safe_data(),
+        )
 
 
 @router.post(
@@ -68,7 +73,7 @@ async def _login(
 async def _user_get(
     user_dto: Annotated[UserDTO, Depends(get_current_user)],
 ):
-    return {"success": 1, "item": user_dto}
+    return UserResponseSchema(success=1, item=UserItemResponseSchema(**user_dto.as_dict()))
 
 
 @router.delete(
@@ -82,4 +87,4 @@ async def _user_delete(
     user_service: UserServiceDep,
 ):
     await user_service.delete_user(user_id=user_dto.id)
-    return {"success": 1}
+    return ResponseSchema(success=1)

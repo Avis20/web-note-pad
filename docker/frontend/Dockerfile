@@ -5,7 +5,7 @@ WORKDIR /data/
 COPY ./src/frontend/package.json /data/
 
 RUN npm install
-ENV PATH /data/node_modules/.bin:$PATH
+ENV PATH=/data/node_modules/.bin:$PATH
 
 COPY . /data/app/
 WORKDIR /data/app/

@@ -5,7 +5,7 @@
     <section>
       <h1>Добавить новую заметку</h1>
       <hr><br>
-      
+
       <form @submit.prevent="submit">
         <div class="mb-3">
           <label for="title" class="form-label">Заголовок</label>
@@ -29,12 +29,17 @@
           <div class="card">
             <div class="card-body">
               <ul>
-                <li><strong>Заголовок:</strong>{{ note.title }}</li>
-                <li><router-link :to="{name: 'Note', params:{'id': note.id}}">Показать</router-link></li>
+                <li><strong>Заголовок: </strong>{{ note.title }}</li>
+                <li><strong>Автор: </strong>{{ note.title }}</li>
+                <li><router-link :to="{ name: 'note', params: { 'id': note.id } }">Показать</router-link></li>
               </ul>
             </div>
           </div>
         </div>
+      </div>
+
+      <div v-else>
+        <p>Заметок нет, возвращайтесь позже 😉</p>
       </div>
 
     </section>
@@ -55,7 +60,7 @@ export default {
       }
     }
   },
-  created: function() {
+  created: function () {
     return this.$store.dispatch('getNotes')
   },
   computed: {

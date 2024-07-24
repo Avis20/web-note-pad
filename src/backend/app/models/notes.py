@@ -1,5 +1,3 @@
-from __future__ import annotations
-
 import uuid
 
 from app.models.base import BaseModel, Column, RestrictForeignKey
@@ -13,8 +11,6 @@ from sqlalchemy.orm import Mapped, relationship
 class Note(BaseModel, IdMixin, TsMixinCreated, TsMixinUpdated):
     __tablename__ = "notes"
 
-    __table_args__ = (PrimaryKeyConstraint("id", name="note_pkey"),)
-
     title: Mapped[str] = Column(Text, nullable=False, init=False)
     content: Mapped[str] = Column(Text, nullable=True, init=False)
     author_id: Mapped[uuid.UUID] = Column(
@@ -25,3 +21,5 @@ class Note(BaseModel, IdMixin, TsMixinCreated, TsMixinUpdated):
     )
 
     author: Mapped[User] = relationship("User", lazy="noload", init=False)
+
+    PrimaryKeyConstraint("id", name="note_pkey")

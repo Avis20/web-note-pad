@@ -7,11 +7,10 @@ from sqlalchemy.orm import Mapped
 class User(BaseModel, IdMixin, TsMixinCreated, TsMixinUpdated):
     __tablename__ = "users"
 
-    __table_args__ = (PrimaryKeyConstraint("id", name="user_pkey"),)
-
     username: Mapped[str] = Column(String(127), nullable=False, init=False)
     full_name: Mapped[str] = Column(String(127), nullable=True, init=False)
 
     password: Mapped[str] = Column(String(127), nullable=False, init=False)
 
+    PrimaryKeyConstraint("id", name="user_pkey")
     UniqueConstraint(username, name='username_uniq')

@@ -1,4 +1,4 @@
-<!-- ./frontend/src/views/Home.vue --> 
+<!-- ./frontend/src/views/Home.vue -->
 
 <template>
   <section>
@@ -6,8 +6,12 @@
       <p id="logout"><a href="/dashboard">Нажмите</a> чтобы увидеть все заметки</p>
     </div>
     <p v-else>
-      <span><a href="/login">Войти</a><hr></span>
-      <span>Не получается войти?<hr></span>
+      <span><a href="/login">Войти</a>
+        <hr>
+      </span>
+      <span>Не получается войти?
+        <hr>
+      </span>
       <span><a href="/register">Зарегистрироваться</a></span>
     </p>
   </section>
@@ -18,8 +22,7 @@
 export default {
   name: "HomeVue",
   computed: {
-    isLoggedIn: function() {
-      console.log('isAuth', this.$store.getters.isAuth);
+    isLoggedIn: function () {
       return this.$store.getters.isAuth;
     }
   }

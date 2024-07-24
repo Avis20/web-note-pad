@@ -5,6 +5,7 @@ import Register from '@/views/RegisterView.vue'
 import Login from '@/views/LoginView.vue'
 import Dashboard from '@/views/DashboardView.vue'
 import Profile from '@/views/ProfileView.vue'
+import NoteView from '@/views/NoteView.vue'
 
 Vue.use(VueRouter)
 
@@ -27,7 +28,15 @@ const routes = [
   {
     path: '/dashboard',
     name: 'dashboard',
-    component: Dashboard
+    component: Dashboard,
+    meta: { requiresAuth: true },
+  },
+  {
+    path: '/note/:id',
+    name: 'note',
+    component: NoteView,
+    meta: { requiresAuth: true },
+    props: true
   },
   {
     path: '/profile',

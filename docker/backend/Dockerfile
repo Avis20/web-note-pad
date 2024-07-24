@@ -21,5 +21,5 @@ COPY ./src/backend/app $APP_DIR
 COPY ./src/backend/alembic.ini $SRC_DIR/alembic.ini
 COPY ./src/backend/migrations $SRC_DIR/migrations
 
-ENV PYTHONUNBUFFERED 1
-ENV PYTHONDONTWRITEBYTECODE 1
+ENV PYTHONUNBUFFERED=1 \
+    PYTHONDONTWRITEBYTECODE=1

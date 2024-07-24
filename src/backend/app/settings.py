@@ -8,7 +8,7 @@ class PostgresConfig(BaseSettings):
 
     host: str = Field(default="localhost")
     port: int = Field(default=5432)
-    db: str = Field(default="web_notepad_database")
+    db: str = Field(default="web_notepad")
     user: str = Field(default="web_notepad")
     password: str = Field(default="web_notepad")
     echo_log: bool = Field(default=False)

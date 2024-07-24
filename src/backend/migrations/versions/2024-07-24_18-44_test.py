@@ -1,8 +1,8 @@
-"""init
+"""test
 
-Revision ID: beee9af25ab2
+Revision ID: 282061e5a6d8
 Revises: 
-Create Date: 2024-03-09 20:55:24.081498
+Create Date: 2024-07-24 18:44:52.677466
 
 """
 from typing import Sequence, Union
@@ -12,7 +12,7 @@ import sqlalchemy as sa
 
 
 # revision identifiers, used by Alembic.
-revision: str = 'beee9af25ab2'
+revision: str = '282061e5a6d8'
 down_revision: Union[str, None] = None
 branch_labels: Union[str, Sequence[str], None] = None
 depends_on: Union[str, Sequence[str], None] = None
@@ -28,7 +28,7 @@ def upgrade() -> None:
         sa.Column('id', sa.UUID(), nullable=False),
         sa.Column('created_at', sa.TIMESTAMP(), nullable=False),
         sa.Column('updated_at', sa.TIMESTAMP(), nullable=False),
-        sa.PrimaryKeyConstraint('id', name='user_pkey'),
+        sa.PrimaryKeyConstraint('id'),
         sa.UniqueConstraint('username', name='username_uniq'),
     )
     op.create_table(
@@ -39,8 +39,8 @@ def upgrade() -> None:
         sa.Column('id', sa.UUID(), nullable=False),
         sa.Column('created_at', sa.TIMESTAMP(), nullable=False),
         sa.Column('updated_at', sa.TIMESTAMP(), nullable=False),
-        sa.ForeignKeyConstraint(['author_id'], ['users.id'], onupdate='CASCADE', ondelete='CASCADE'),
-        sa.PrimaryKeyConstraint('id', name='note_pkey'),
+        sa.ForeignKeyConstraint(['author_id'], ['users.id'], onupdate='RESTRICT', ondelete='RESTRICT'),
+        sa.PrimaryKeyConstraint('id'),
     )
     # ### end Alembic commands ###
 

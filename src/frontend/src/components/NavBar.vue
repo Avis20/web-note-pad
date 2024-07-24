@@ -1,10 +1,10 @@
-<!-- ./frontend/src/components/NavBar.vue --> 
+<!-- ./frontend/src/components/NavBar.vue -->
 
 <template>
   <header>
     <nav class="navbar navbar-expand-md navbar-dark bg-dark">
       <div class="container">
-        <a class="navbar-brand" href="/">Fast API + Vue</a>
+        <a class="navbar-brand" href="/">Web Notepad</a>
         <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarCollapse"
           aria-controls="navbarCollapse" aria-expanded="false" aria-label="Toggle Nav">
           <span class="navbar-toggler-icon"></span>
@@ -46,7 +46,7 @@
 export default {
   name: "NavBar",
   computed: {
-    isLoggedIn: function() {
+    isLoggedIn: function () {
       return this.$store.getters.isAuth;
     }
   },

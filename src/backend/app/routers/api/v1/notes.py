@@ -11,7 +11,7 @@ from app.schemas.response.base import ResponseSchema
 from app.schemas.response.notes import NoteListResponseSchema, NoteResponseSchema
 
 
-router = APIRouter(prefix="/note")
+router = APIRouter(prefix="/note", tags=["Notes"])
 
 logger = logging.getLogger()
 
