@@ -3,6 +3,7 @@ from datetime import datetime
 from uuid import UUID
 
 from app.dto.base import DTO
+from app.dto.users import UserDTO
 
 
 @dataclass
@@ -26,3 +27,4 @@ class NoteDTO(DTO):
     author_id: UUID
     created_at: datetime
     updated_at: datetime
+    author: UserDTO

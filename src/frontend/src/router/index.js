@@ -6,41 +6,49 @@ import Login from '@/views/LoginView.vue'
 import Dashboard from '@/views/DashboardView.vue'
 import Profile from '@/views/ProfileView.vue'
 import NoteView from '@/views/NoteView.vue'
+import EditNoteView from '@/views/EditNoteView.vue'
 
 Vue.use(VueRouter)
 
 const routes = [
   {
     path: '/',
-    name: 'home',
+    name: 'Home',
     component: HomeView
   },
   {
     path: '/register',
-    name: 'register',
+    name: 'Register',
     component: Register
   },
   {
     path: '/login',
-    name: 'login',
+    name: 'Login',
     component: Login
   },
   {
     path: '/dashboard',
-    name: 'dashboard',
+    name: 'Dashboard',
     component: Dashboard,
     meta: { requiresAuth: true },
   },
   {
     path: '/note/:id',
-    name: 'note',
+    name: 'Note',
     component: NoteView,
     meta: { requiresAuth: true },
     props: true
   },
   {
+    path: '/editnote/:id',
+    name: 'EditNote',
+    component: EditNoteView,
+    meta: { requiresAuth: true },
+    props: true
+  },
+  {
     path: '/profile',
-    name: 'profile',
+    name: 'Profile',
     component: Profile
   }
 ]

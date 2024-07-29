@@ -21,8 +21,17 @@ const actions = {
     },
     async getNote({ commit }, note_id) {
         let { data } = await axios.get(`api/v1/note/${note_id}/get`)
-        console.log(data);
         commit('setNote', data.item)
+    },
+    // eslint-disable-next-line no-empty-pattern
+    async deleteNote({}, note_id) {
+        await axios.delete(`api/v1/note/${note_id}/delete`)
+    },
+    // eslint-disable-next-line no-empty-pattern
+    async updateNote({}, note) {
+        console.log('note_id', note.id);
+        console.log('note', note.form);
+        await axios.post(`api/v1/note/${note.id}/update`, note.form)
     }
 };
 

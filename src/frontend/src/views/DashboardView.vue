@@ -30,8 +30,8 @@
             <div class="card-body">
               <ul>
                 <li><strong>Заголовок: </strong>{{ note.title }}</li>
-                <li><strong>Автор: </strong>{{ note.title }}</li>
-                <li><router-link :to="{ name: 'note', params: { 'id': note.id } }">Показать</router-link></li>
+                <li><strong>Автор: </strong>{{ note.author.username }}</li>
+                <li><router-link :to="{ name: 'Note', params: { 'id': note.id } }">Показать</router-link></li>
               </ul>
             </div>
           </div>

@@ -4,6 +4,7 @@ from uuid import UUID
 from pydantic import BaseModel
 
 from app.schemas.response.base import ResponseSchema
+from app.schemas.response.users import UserItemResponseSchema
 
 
 class NoteItemResponseSchema(BaseModel):
@@ -13,6 +14,7 @@ class NoteItemResponseSchema(BaseModel):
     author_id: UUID
     created_at: datetime
     updated_at: datetime
+    author: UserItemResponseSchema
 
 
 class NoteResponseSchema(ResponseSchema):
