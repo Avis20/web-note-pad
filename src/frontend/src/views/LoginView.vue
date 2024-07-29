@@ -32,7 +32,7 @@ export default {
     async submit() {
       try {
         await this.login(this.form);
-        this.$router.push('/dashboard');
+        this.$router.push('/dashboard').catch((error) => {console.log(error);});
       } catch (error) {
         alert(error);
         console.error(error);

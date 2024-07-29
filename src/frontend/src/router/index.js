@@ -7,6 +7,7 @@ import Dashboard from '@/views/DashboardView.vue'
 import Profile from '@/views/ProfileView.vue'
 import NoteView from '@/views/NoteView.vue'
 import EditNoteView from '@/views/EditNoteView.vue'
+// import store from '@/store'
 
 Vue.use(VueRouter)
 
@@ -49,6 +50,7 @@ const routes = [
   {
     path: '/profile',
     name: 'Profile',
+    meta: { requiresAuth: true },
     component: Profile
   }
 ]
@@ -58,5 +60,20 @@ const router = new VueRouter({
   base: process.env.BASE_URL,
   routes
 })
+
+// TODO: later
+// router.beforeEach((to, _, next) => {
+//   if (to.matched.some(record => record.meta.requiresAuth)) {
+//     console.log(store);
+//     if (store.getters.isAuthenticated) {
+//       next();
+//       return;
+//     }
+//     next('/login');
+//   } else {
+//     next();
+//   }
+// });
+
 
 export default router
