@@ -1,3 +1,5 @@
+# Мини сервис для написания заметок
+Стек: backend - fastapi, frontend - vue
 
 
 ## Alembic
